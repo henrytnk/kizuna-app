@@ -14,7 +14,7 @@ export interface NewGameOptions {
 
 export type Action =
   | ({ type: 'START' } & NewGameOptions)
-  | { type: 'BEGIN_ROUND' }
+  | { type: 'BEGIN_ROUND'; at: number }
   | { type: 'ANSWERED' }
   | { type: 'PASS' }
   | { type: 'UNDO' }
@@ -71,7 +71,7 @@ export function reducer(s: GameState | null, a: Action): GameState | null {
 
   switch (a.type) {
     case 'BEGIN_ROUND':
-      return s.phase === 'round-intro' ? withUndo(s, { ...s, phase: 'card' }) : s
+      return s.phase === 'round-intro' ? withUndo(s, { ...s, phase: 'card', roundStartedAt: a.at }) : s
     case 'ANSWERED':
       if (s.phase !== 'card') return s
       return withUndo(s, s.answeredBy === 0 ? { ...s, answeredBy: 1 } : advance(s))

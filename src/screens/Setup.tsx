@@ -1,11 +1,14 @@
 import { type FormEvent, useState } from 'react'
 import { Button } from '../components/ui'
+import { decodeCode, encodeSeed } from '../game/gameCode'
 import type { NewGameOptions } from '../game/reducer'
 import type { Form, Order, Player } from '../game/types'
 
 interface Props {
-  initial?: Pick<NewGameOptions, 'players' | 'order' | 'includeBonus'>
-  onStart: (o: Omit<NewGameOptions, 'seed'>) => void
+  initial?: Partial<Pick<NewGameOptions, 'players' | 'order' | 'includeBonus' | 'seed'>>
+  /** Joining a game started on another phone: asks for its code instead of making a new seed. */
+  joining?: boolean
+  onStart: (o: Omit<NewGameOptions, 'seed'> & { seed?: number }) => void
   onBack: () => void
 }
 
@@ -43,10 +46,12 @@ function Segmented<T extends string>({
   )
 }
 
-export function Setup({ initial, onStart, onBack }: Props) {
+export function Setup({ initial, joining = false, onStart, onBack }: Props) {
   const [players, setPlayers] = useState<[Player, Player]>(initial?.players ?? DEFAULT_PLAYERS)
   const [order, setOrder] = useState<Order>(initial?.order ?? 'by-round')
   const [includeBonus, setIncludeBonus] = useState(initial?.includeBonus ?? false)
+  const [code, setCode] = useState(joining && initial?.seed !== undefined ? encodeSeed(initial.seed) : '')
+  const [codeError, setCodeError] = useState(false)
 
   const setPlayer = (i: 0 | 1, patch: Partial<Player>) =>
     setPlayers((ps) => {
@@ -57,8 +62,13 @@ export function Setup({ initial, onStart, onBack }: Props) {
 
   const submit = (e: FormEvent) => {
     e.preventDefault()
+    const seed = joining ? decodeCode(code) : undefined
+    if (seed === null) {
+      setCodeError(true)
+      return
+    }
     const named = players.map((p, i) => ({ ...p, name: p.name.trim() || `Jogador ${i + 1}` })) as [Player, Player]
-    onStart({ players: named, order, includeBonus })
+    onStart({ players: named, order, includeBonus, seed })
   }
 
   return (
@@ -68,9 +78,35 @@ export function Setup({ initial, onStart, onBack }: Props) {
           ← Voltar
         </button>
       </header>
-      <h1 className="font-serif text-3xl">Novo jogo</h1>
+      <h1 className="font-serif text-3xl">{joining ? 'Entrar no jogo' : 'Novo jogo'}</h1>
 
       <div className="mt-6 flex flex-1 flex-col gap-7">
+        {joining && (
+          <fieldset className="flex flex-col gap-2">
+            <legend className="mb-2 text-sm text-muted">Código do outro celular</legend>
+            <input
+              value={code}
+              onChange={(e) => {
+                setCode(e.target.value.toUpperCase())
+                setCodeError(false)
+              }}
+              placeholder="K7Q2"
+              aria-label="Código do jogo"
+              aria-invalid={codeError}
+              aria-describedby="code-help"
+              maxLength={6}
+              autoComplete="off"
+              autoCapitalize="characters"
+              spellCheck={false}
+              className="min-h-14 rounded-xl border border-line bg-surface px-4 text-center font-mono text-3xl tracking-[0.3em] text-gold outline-none placeholder:text-muted/40 focus:border-accent aria-invalid:border-accent"
+            />
+            <p id="code-help" className="text-sm leading-relaxed text-muted">
+              {codeError
+                ? 'Esse código não parece certo: são 4 letras ou números.'
+                : 'Usem os mesmos nomes, na mesma ordem, e a mesma ordem das cartas do outro celular.'}
+            </p>
+          </fieldset>
+        )}
         {([0, 1] as const).map((i) => (
           <fieldset key={i} className="flex flex-col gap-3">
             <legend className="mb-2 text-sm text-muted">{i === 0 ? 'Quem começa' : 'Quem responde em segundo'}</legend>

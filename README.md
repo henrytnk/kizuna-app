@@ -15,7 +15,7 @@ npm run dev
 
 ```bash
 npm test             # Vitest: deck engine, render, reducer, saved-game parsing
-npm run test:e2e     # Playwright: full game on a phone viewport, offline reload
+npm run test:e2e     # Playwright: full game on a phone viewport, offline reload, two-phone code
 ```
 
 The first e2e run needs a browser: `npx playwright install chromium`.
@@ -34,6 +34,8 @@ npm run deploy       # build + wrangler deploy → https://kizuna.<your-subdomai
 - **State** is a reducer ([src/game/reducer.ts](src/game/reducer.ts)) saved to `localStorage` on every change, so closing the tab or locking the phone keeps the game. Undo pops up to 10 snapshots without reshuffling. A saved game that fails validation offers a new game instead of crashing.
 - **Couple features:** turn banner, alternating first answerer, table mode (the card rotates 180° toward the second player), follow-up behind a tap, screen wake lock with an auto-lock tip as fallback, and an optional two-minute eye-contact finale.
 
-## Not built yet (v1.1)
+## v1.1 extras
 
-Second-phone game code and link, round timer bar, Android haptics. The seed is already 20-bit so it can encode as a 4-character game code.
+- **Two phones.** "Jogar em dois celulares" on any round intro shows a 4-character code (the 20-bit seed in Crockford base32, see [src/game/gameCode.ts](src/game/gameCode.ts)) and a share link like `/#g=K7Q2&o=r&b=0`. The hash carries seed, order (`r` por rodada, `a` aleatória) and bonus, and browsers never send it to the server. The other phone opens the link, or taps "Entrar com código", enters the same names in the same order and gets the identical deck. Each phone taps forward on its own.
+- **Round timer.** A thin bar under the header fills over about 15 minutes per round (45 for a mixed game, 5 for the bonus card). It never interrupts.
+- **Haptics.** A 30 ms vibration when the turn passes to the other player. Android only: iOS Safari has no Vibration API.

@@ -14,7 +14,7 @@ function start(order: Order = 'by-round', includeBonus = false): GameState {
 }
 
 function run(s: GameState, ...actions: Action['type'][]): GameState {
-  return actions.reduce((acc, type) => reducer(acc, { type } as Action)!, s)
+  return actions.reduce((acc, type) => reducer(acc, { type, at: 1000 } as Action)!, s)
 }
 
 /** Plays forward through intros and both answers (or passes) until the game leaves the card phases. */
@@ -38,6 +38,17 @@ describe('reducer', () => {
     expect(s.phase).toBe('round-intro')
     expect(s.index).toBe(0)
     expect(run(s, 'BEGIN_ROUND').phase).toBe('card')
+  })
+
+  it('records when each round starts, and undo restores the previous start', () => {
+    const r1 = reducer(start(), { type: 'BEGIN_ROUND', at: 1000 })!
+    expect(r1.roundStartedAt).toBe(1000)
+    let s = r1
+    while (s.phase === 'card') s = run(s, 'PASS')
+    expect(s.phase).toBe('round-intro')
+    const r2 = reducer(s, { type: 'BEGIN_ROUND', at: 5000 })!
+    expect(r2.roundStartedAt).toBe(5000)
+    expect(run(r2, 'UNDO').roundStartedAt).toBe(1000)
   })
 
   it('needs both answers before dealing the next card', () => {

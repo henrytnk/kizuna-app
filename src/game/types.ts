@@ -38,6 +38,8 @@ export interface GameState {
   passed: string[]
   phase: Phase
   tableMode: boolean
+  /** When the current round's first card was dealt (ms since epoch), for the round timer bar. */
+  roundStartedAt?: number
   /** Last 10 snapshots, oldest first. */
   undo: Snapshot[]
 }

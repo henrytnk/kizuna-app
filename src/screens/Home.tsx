@@ -5,9 +5,10 @@ interface Props {
   savedGameBroken: boolean
   onContinue: () => void
   onNewGame: () => void
+  onJoin: () => void
 }
 
-export function Home({ canContinue, savedGameBroken, onContinue, onNewGame }: Props) {
+export function Home({ canContinue, savedGameBroken, onContinue, onNewGame, onJoin }: Props) {
   return (
     <div className="screen animate-fade-in">
       <div className="flex flex-1 flex-col items-center justify-center text-center">
@@ -28,6 +29,9 @@ export function Home({ canContinue, savedGameBroken, onContinue, onNewGame }: Pr
         {canContinue && <Button onClick={onContinue}>Continuar</Button>}
         <Button variant={canContinue ? 'secondary' : 'primary'} onClick={onNewGame}>
           {savedGameBroken ? 'Começar novo jogo' : 'Novo jogo'}
+        </Button>
+        <Button variant="ghost" onClick={onJoin}>
+          Entrar com código
         </Button>
       </div>
     </div>

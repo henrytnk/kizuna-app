@@ -35,7 +35,8 @@ function isValidGame(g: unknown): g is GameState {
     Array.isArray(s.passed) &&
     s.passed.every((id) => deck.includes(id)) &&
     PHASES.includes(s.phase as Phase) &&
-    typeof s.tableMode === 'boolean'
+    typeof s.tableMode === 'boolean' &&
+    (s.roundStartedAt === undefined || Number.isFinite(s.roundStartedAt))
   )
 }
 

@@ -1,9 +1,12 @@
+import { useState } from 'react'
 import { Button } from '../components/ui'
 import { currentCard, segmentOf } from '../game/reducer'
 import { SEGMENTS } from '../game/rounds'
 import type { GameState } from '../game/types'
+import { ShareGame } from './ShareGame'
 
 export function RoundIntro({ game, onBegin }: { game: GameState; onBegin: () => void }) {
+  const [sharing, setSharing] = useState(false)
   const card = currentCard(game)
   if (!card) return null
   const seg = SEGMENTS[segmentOf(card, game.order)]
@@ -14,8 +17,15 @@ export function RoundIntro({ game, onBegin }: { game: GameState; onBegin: () => 
         <p className="text-sm uppercase tracking-[0.2em] text-gold">{seg.subtitle}</p>
         <h1 className="mt-3 font-serif text-5xl">{seg.title}</h1>
         <p className="mt-6 max-w-xs text-lg leading-relaxed text-muted">{seg.howTo}</p>
+        <p className="mt-3 text-sm text-muted">Cerca de {seg.minutes} minutos</p>
       </div>
-      <Button onClick={onBegin}>Começar</Button>
+      <div className="flex flex-col gap-2">
+        <Button variant="ghost" onClick={() => setSharing(true)}>
+          Jogar em dois celulares
+        </Button>
+        <Button onClick={onBegin}>Começar</Button>
+      </div>
+      {sharing && <ShareGame game={game} onClose={() => setSharing(false)} />}
     </>
   )
 }
