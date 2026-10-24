@@ -14,10 +14,10 @@ test('a full game plays end to end on a phone', async ({ page }) => {
   // Table mode turns the card to Leo after Ana answers, and survives a reload.
   await page.getByRole('button', { name: /Modo mesa/ }).click()
   await page.getByRole('button', { name: 'Respondi' }).click()
-  await expect(page.getByText('Agora é a vez de Leo')).toBeVisible()
+  await expect(page.getByText('Vez de Leo')).toBeVisible()
   await page.reload()
   await page.getByRole('button', { name: 'Continuar' }).click()
-  await expect(page.getByText('Agora é a vez de Leo')).toBeVisible()
+  await expect(page.getByText('Vez de Leo')).toBeVisible()
   await expect(page.getByRole('button', { name: /Modo mesa/ })).toHaveAttribute('aria-pressed', 'true')
 
   // Pass one card, then answer everything else.
@@ -92,4 +92,35 @@ test('rejects a mistyped code', async ({ page }) => {
   await page.getByRole('button', { name: 'Começar' }).click()
   await expect(page.getByText('Esse código não parece certo')).toBeVisible()
   await expect(page.getByLabel('Código do jogo')).toHaveAttribute('aria-invalid', 'true')
+})
+
+test('nothing covers the bottom buttons, and the page runs under its security policy', async ({ page }) => {
+  const violations: string[] = []
+  page.on('console', (m) => {
+    if (/Content Security Policy/i.test(m.text())) violations.push(m.text())
+  })
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Novo jogo' }).click()
+  await page.getByRole('button', { name: 'Começar' }).click()
+  await page.getByRole('button', { name: 'Começar' }).click()
+  // Give injected widgets (such as a host's badge) time to appear.
+  await page.waitForTimeout(2000)
+
+  for (const name of ['Respondi', 'Passar']) {
+    const button = page.getByRole('button', { name })
+    const box = (await button.boundingBox())!
+    // Check near the corners too (inside the rounding): a badge pinned bottom-right would only cover part of the button.
+    for (const [x, y] of [
+      [box.x + box.width / 2, box.y + box.height / 2],
+      [box.x + box.width - 16, box.y + box.height - 12],
+      [box.x + 16, box.y + box.height - 12],
+    ]) {
+      const onTop = await page.evaluate(([px, py]) => document.elementFromPoint(px, py)?.closest('button')?.textContent, [x, y])
+      expect(onTop, `${name} at (${Math.round(x)}, ${Math.round(y)})`).toBe(name)
+    }
+  }
+  const csp = (await page.request.get('/')).headers()['content-security-policy']
+  expect(csp).toContain("script-src 'self'")
+  // The app itself must not trip its own policy; only the blocked third-party badge may.
+  expect(violations.filter((v) => !/netlify|nl-badge/i.test(v))).toEqual([])
 })

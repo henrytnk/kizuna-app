@@ -22,14 +22,16 @@ function Segmented<T extends string>({
   value,
   options,
   onChange,
+  className = '',
 }: {
+  className?: string
   label: string
   value: T
   options: { value: T; label: string }[]
   onChange: (v: T) => void
 }) {
   return (
-    <div role="radiogroup" aria-label={label} className="flex rounded-xl bg-surface p-1">
+    <div role="radiogroup" aria-label={label} className={`flex rounded-xl bg-surface p-1 ${className}`}>
       {options.map((o) => (
         <button
           key={o.value}
@@ -73,14 +75,14 @@ export function Setup({ initial, joining = false, onStart, onBack }: Props) {
 
   return (
     <form className="screen animate-fade-in" onSubmit={submit}>
-      <header className="mb-6 flex items-center">
+      <header className="mb-4 flex items-center">
         <button type="button" onClick={onBack} className="-ml-2 min-h-11 px-2 text-muted">
           ← Voltar
         </button>
       </header>
       <h1 className="font-serif text-3xl">{joining ? 'Entrar no jogo' : 'Novo jogo'}</h1>
 
-      <div className="mt-6 flex flex-1 flex-col gap-7">
+      <div className="mt-6 flex flex-1 flex-col gap-6">
         {joining && (
           <fieldset className="flex flex-col gap-2">
             <legend className="mb-2 text-sm text-muted">Código do outro celular</legend>
@@ -108,7 +110,7 @@ export function Setup({ initial, joining = false, onStart, onBack }: Props) {
           </fieldset>
         )}
         {([0, 1] as const).map((i) => (
-          <fieldset key={i} className="flex flex-col gap-3">
+          <fieldset key={i} className="flex gap-2">
             <legend className="mb-2 text-sm text-muted">{i === 0 ? 'Quem começa' : 'Quem responde em segundo'}</legend>
             <input
               value={players[i].name}
@@ -118,9 +120,10 @@ export function Setup({ initial, joining = false, onStart, onBack }: Props) {
               maxLength={24}
               autoComplete="off"
               enterKeyHint={i === 0 ? 'next' : 'done'}
-              className="min-h-13 rounded-xl border border-line bg-surface px-4 text-lg text-ink outline-none placeholder:text-muted/60 focus:border-accent"
+              className="min-h-13 min-w-0 flex-1 rounded-xl border border-line bg-surface px-4 text-lg text-ink outline-none placeholder:text-muted/60 focus:border-accent"
             />
             <Segmented<Form>
+              className="w-30 shrink-0"
               label={`Como tratar o jogador ${i + 1}`}
               value={players[i].form}
               onChange={(form) => setPlayer(i, { form })}

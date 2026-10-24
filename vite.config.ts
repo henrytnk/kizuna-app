@@ -1,10 +1,25 @@
+import { readFileSync } from 'node:fs'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
+/** The site-wide headers from public/_headers (Netlify's format), so `vite preview` serves the same ones. */
+function netlifyHeaders(): Record<string, string> {
+  const lines = readFileSync(new URL('./public/_headers', import.meta.url), 'utf8').split('\n')
+  return Object.fromEntries(
+    lines
+      .filter((l) => /^\s+[\w-]+:/.test(l))
+      .map((l) => {
+        const i = l.indexOf(':')
+        return [l.slice(0, i).trim(), l.slice(i + 1).trim()]
+      }),
+  )
+}
+
 // https://vite.dev/config/
 export default defineConfig({
+  preview: { headers: netlifyHeaders() },
   plugins: [
     react(),
     tailwindcss(),

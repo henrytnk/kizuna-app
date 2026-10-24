@@ -26,7 +26,7 @@ export function CardScreen({ game, onAnswered, onPass }: Props) {
       className={`flex flex-1 flex-col transition-transform duration-500 ease-in-out ${flipped ? 'rotate-180' : ''}`}
     >
       <p aria-live="polite" className="mt-4 text-center text-lg">
-        <span className="text-muted">{game.answeredBy === 0 ? 'Vez de ' : 'Agora é a vez de '}</span>
+        <span className="text-muted">Vez de </span>
         <span className="font-semibold text-gold">{me.name}</span>
       </p>
 

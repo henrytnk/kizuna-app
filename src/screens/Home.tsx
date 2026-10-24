@@ -16,8 +16,8 @@ export function Home({ canContinue, savedGameBroken, onContinue, onNewGame, onJo
         <h1 className="font-serif text-5xl tracking-wide">Kizuna</h1>
         <p className="mt-3 text-lg text-muted">Perguntas para criar conexão</p>
         <p className="mt-8 max-w-xs text-sm leading-relaxed text-muted">
-          Um celular entre vocês, uma carta por vez. Os dois respondem, cada um na sua vez. Nada do que vocês
-          disserem fica salvo.
+          Um celular entre vocês, uma carta por vez, em três rodadas cada vez mais pessoais. Baseado no estudo de
+          Arthur Aron sobre como duas pessoas se aproximam. Nada do que vocês disserem fica salvo.
         </p>
         {savedGameBroken && (
           <p role="status" className="mt-6 rounded-xl border border-line px-4 py-3 text-sm text-muted">

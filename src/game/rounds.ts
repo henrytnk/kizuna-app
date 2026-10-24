@@ -5,25 +5,25 @@ export const SEGMENTS: Record<string, { title: string; subtitle: string; howTo: 
   '1': {
     title: 'Rodada 1',
     subtitle: 'para aquecer',
-    howTo: 'Perguntas leves para começar. Os dois respondem cada carta, um de cada vez.',
+    howTo: 'Perguntas leves para começar. Os dois respondem toda carta, revezando quem começa, e qualquer um pode passar.',
     minutes: 15,
   },
   '2': {
     title: 'Rodada 2',
     subtitle: 'mais pessoal',
-    howTo: 'Agora as perguntas vão um pouco mais fundo. Sem pressa: deixem a conversa acontecer.',
+    howTo: 'Um pouco mais fundo. Depois de cada resposta, façam um ou dois follow-ups antes de passar a vez.',
     minutes: 15,
   },
   '3': {
     title: 'Rodada 3',
     subtitle: 'mais profunda',
-    howTo: 'As perguntas mais íntimas. Escutem com atenção e não interrompam quem está falando.',
+    howTo: 'A rodada mais íntima, e sobre vocês dois. Escutem para entender, sem pressa de responder.',
     minutes: 15,
   },
   mix: {
     title: 'Cartas misturadas',
     subtitle: 'todas as rodadas',
-    howTo: 'As perguntas vêm em qualquer ordem, das leves às mais profundas. Os dois respondem cada carta.',
+    howTo: 'Das leves às mais profundas, em qualquer ordem. Os dois respondem toda carta, e qualquer um pode passar.',
     minutes: 45,
   },
   bonus: {

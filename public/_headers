@@ -1,0 +1,10 @@
+# Netlify reads this file from the published folder. Vite's preview server reads it too (vite.config.ts),
+# so local e2e tests run under the same policy.
+#
+# Scripts may only come from this site's own files, with no inline scripts. Besides general hardening,
+# this stops Netlify's "Powered by Netlify" badge, which is pinned bottom-right and covers the
+# Respondi button on phones.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  Referrer-Policy: no-referrer
+  X-Content-Type-Options: nosniff

@@ -23,7 +23,7 @@ export function EyeContact({ onFinish }: { onFinish: () => void }) {
         <p className="mt-6 max-w-xs text-lg leading-relaxed text-muted">
           {stage === 'over'
             ? 'Fiquem mais um pouco se quiserem.'
-            : 'Em silêncio, olhem nos olhos um do outro por dois minutos. A tela escurece e volta quando o tempo acabar.'}
+            : 'Se o clima pedir: em silêncio, olhem nos olhos um do outro por dois minutos. A tela escurece e volta quando o tempo acabar.'}
         </p>
       </div>
       {stage === 'over' ? (

@@ -20,16 +20,20 @@ npm run test:e2e     # Playwright: full game on a phone viewport, offline reload
 
 The first e2e run needs a browser: `npx playwright install chromium`.
 
+To run the same e2e tests against the live site: `BASE_URL=https://kizuna-quiz.netlify.app npm run test:e2e`.
+
 ## Deploy
 
 In Netlify: **Add new site → Import an existing project → GitHub → kizuna-app**, then **Deploy**. The build settings come from [netlify.toml](netlify.toml) (`npm run build`, publish `dist`, Node 22), so nothing needs filling in. Every push to `main` redeploys.
 
-Open the `*.netlify.app` link on your phone. To use it like an app: Safari → Share → Adicionar à Tela de Início, or Chrome → ⋮ → Instalar app.
+Security headers live in [public/_headers](public/_headers). Their strict script policy also keeps Netlify's “Powered by Netlify” badge from rendering, since it would sit over the Respondi button. You can also switch the badge off in Netlify under Project configuration → General → Powered by Netlify badge.
+
+Live at https://kizuna-quiz.netlify.app. Open it on your phone. To use it like an app: Safari → Share → Adicionar à Tela de Início, or Chrome → ⋮ → Instalar app.
 
 ## How it works
 
 - **Cards** live in [src/data/cards.json](src/data/cards.json): 10 + 10 + 9 cards across three rounds, plus one optional bonus card. `{masc|fem}` pairs adapt to whoever is answering; `{parceiro}` becomes the other player's name.
-- **No repeats by construction.** [src/game/deck.ts](src/game/deck.ts) shuffles the deck once per game from a 20-bit seed (mulberry32 + Fisher–Yates), round by round unless random order is chosen, and reshuffles a round if one theme would come up three times in a row. The game only moves a pointer forward; passed cards are never dealt again.
+- **No repeats by construction.** [src/game/deck.ts](src/game/deck.ts) shuffles the deck once per game from a 20-bit seed (mulberry32 + Fisher–Yates), round by round unless random order is chosen. Within a round, passado, presente and futuro take turns (never the same theme twice in a row); random order only avoids three in a row. The game only moves a pointer forward; passed cards are never dealt again.
 - **State** is a reducer ([src/game/reducer.ts](src/game/reducer.ts)) saved to `localStorage` on every change, so closing the tab or locking the phone keeps the game. Undo pops up to 10 snapshots without reshuffling. A saved game that fails validation offers a new game instead of crashing.
 - **Couple features:** turn banner, alternating first answerer, table mode (the card rotates 180° toward the second player), follow-up behind a tap, screen wake lock with an auto-lock tip as fallback, and an optional two-minute eye-contact finale.
 

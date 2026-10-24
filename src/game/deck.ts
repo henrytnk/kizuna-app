@@ -32,10 +32,13 @@ export function hasThemeRun(cards: readonly Card[], length = 3): boolean {
   return false
 }
 
-/** Shuffle, then reshuffle with the next PRNG values while one theme comes up three times in a row. Still deterministic per seed. */
-function smoothShuffle(cards: readonly Card[], rand: () => number): Card[] {
+/**
+ * Shuffle, then reshuffle with the next PRNG values while one theme comes up `maxRun` times in a row.
+ * Still deterministic per seed.
+ */
+function smoothShuffle(cards: readonly Card[], rand: () => number, maxRun: number): Card[] {
   let a = shuffle(cards, rand)
-  for (let tries = 0; tries < MAX_RESHUFFLES && hasThemeRun(a); tries++) a = shuffle(cards, rand)
+  for (let tries = 0; tries < MAX_RESHUFFLES && hasThemeRun(a, maxRun); tries++) a = shuffle(cards, rand)
   return a
 }
 
@@ -45,10 +48,12 @@ export function buildDeck(
 ): string[] {
   const rand = mulberry32(s.seed)
   const main = cards.filter((c) => c.round !== 'bonus')
+  // By round, the guide's order: passado, presente and futuro take turns, never the same theme twice in a row.
+  // Fully random only avoids three in a row, so it stays surprising.
   const ordered =
     s.order === 'random'
-      ? smoothShuffle(main, rand)
-      : ([1, 2, 3] as const).flatMap((r) => smoothShuffle(main.filter((c) => c.round === r), rand))
+      ? smoothShuffle(main, rand, 3)
+      : ([1, 2, 3] as const).flatMap((r) => smoothShuffle(main.filter((c) => c.round === r), rand, 2))
   const bonus = s.includeBonus ? cards.filter((c) => c.round === 'bonus') : []
   return [...ordered, ...bonus].map((c) => c.id)
 }

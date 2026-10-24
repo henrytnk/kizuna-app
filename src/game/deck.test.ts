@@ -56,10 +56,15 @@ describe('buildDeck', () => {
     }
   })
 
-  it('never deals one theme three times in a row within a round', () => {
+  it('alternates themes within each round: never the same theme twice in a row', () => {
     for (const seed of SEEDS) {
       const deck = buildDeck(CARDS, { seed, order: 'by-round', includeBonus: false }).map(getCard)
-      for (const r of [1, 2, 3]) expect(hasThemeRun(deck.filter((c) => c.round === r))).toBe(false)
+      for (const r of [1, 2, 3]) expect(hasThemeRun(deck.filter((c) => c.round === r), 2)).toBe(false)
+    }
+  })
+
+  it('never deals one theme three times in a row in random order', () => {
+    for (const seed of SEEDS) {
       const mixed = buildDeck(CARDS, { seed, order: 'random', includeBonus: false }).map(getCard)
       expect(hasThemeRun(mixed)).toBe(false)
     }
