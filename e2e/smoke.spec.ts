@@ -97,7 +97,7 @@ test('rejects a mistyped code', async ({ page }) => {
 test('nothing covers the bottom buttons, and the page runs under its security policy', async ({ page }) => {
   const violations: string[] = []
   page.on('console', (m) => {
-    if (/Content Security Policy/i.test(m.text())) violations.push(m.text())
+    if (/Content Security Policy/i.test(m.text())) violations.push(`${m.location().url} ${m.text()}`)
   })
   await page.goto('/')
   await page.getByRole('button', { name: 'Novo jogo' }).click()
@@ -121,6 +121,7 @@ test('nothing covers the bottom buttons, and the page runs under its security po
   }
   const csp = (await page.request.get('/')).headers()['content-security-policy']
   expect(csp).toContain("script-src 'self'")
-  // The app itself must not trip its own policy; only the blocked third-party badge may.
-  expect(violations.filter((v) => !/netlify|nl-badge/i.test(v))).toEqual([])
+  // The app itself must not trip its own policy. Netlify's badge does, from its injected script or its
+  // srcdoc iframe: that is the point.
+  expect(violations.filter((v) => !/^(about:srcdoc|\S*\/\.netlify\/)/.test(v))).toEqual([])
 })
