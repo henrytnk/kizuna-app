@@ -2,7 +2,7 @@
 
 Perguntas para criar conexão: a question-card game for couples. One phone on the table shows one card at a time, both of you answer it, and no card comes back within a game. No backend, no account, and nothing either of you says is stored.
 
-Static React + Vite PWA, served from Cloudflare Workers static assets. Works offline after the first visit.
+Static React + Vite PWA, hosted on Netlify. Works offline after the first visit.
 
 ## Develop
 
@@ -22,10 +22,9 @@ The first e2e run needs a browser: `npx playwright install chromium`.
 
 ## Deploy
 
-```bash
-npx wrangler login   # once
-npm run deploy       # build + wrangler deploy → https://kizuna.<your-subdomain>.workers.dev
-```
+In Netlify: **Add new site → Import an existing project → GitHub → kizuna-app**, then **Deploy**. The build settings come from [netlify.toml](netlify.toml) (`npm run build`, publish `dist`, Node 22), so nothing needs filling in. Every push to `main` redeploys.
+
+Open the `*.netlify.app` link on your phone. To use it like an app: Safari → Share → Adicionar à Tela de Início, or Chrome → ⋮ → Instalar app.
 
 ## How it works
 
