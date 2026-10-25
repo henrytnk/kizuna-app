@@ -25,13 +25,13 @@ test('a full game plays end to end on a phone', async ({ page }) => {
   // Pass one card, then answer everything else.
   await page.getByRole('button', { name: 'Passar' }).click()
   const skip = page.getByRole('button', { name: 'Pular' })
-  for (let i = 0; i < 100 && !(await skip.isVisible()); i++) {
+  for (let i = 0; i < 200 && !(await skip.isVisible()); i++) {
     const start = page.getByRole('button', { name: 'Começar' })
     await (await start.isVisible() ? start : page.getByRole('button', { name: 'Respondi' })).click()
   }
 
   await page.getByRole('button', { name: 'Pular' }).click()
-  await expect(page.getByRole('heading', { name: 'Vocês responderam 35 de 36 cartas' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Vocês responderam 47 de 48 cartas' })).toBeVisible()
 })
 
 test('loads offline after the first visit', async ({ page, context }) => {
@@ -58,7 +58,7 @@ test('two phones using the same code deal the same sequence', async ({ browser, 
 
   // One phone joins by link (settings come with it), another by typing the code.
   const viaLink = await (await browser.newContext()).newPage()
-  await viaLink.goto(`/#g=${code}&m=c&o=a`)
+  await viaLink.goto(`/#g=${code}&o=a`)
   await expect(viaLink.getByRole('heading', { name: 'Entrar no jogo' })).toBeVisible()
   await expect(viaLink.getByLabel('Código do jogo')).toHaveValue(code)
   await expect(viaLink).toHaveURL(/\/$/)
@@ -128,20 +128,32 @@ test('nothing covers the bottom buttons, and the page runs under its security po
   expect(violations.filter((v) => !/^(about:srcdoc|\S*\/\.netlify\/)/.test(v))).toEqual([])
 })
 
-test('Nosso futuro plays its 11 cards and ends without the eye-contact finale', async ({ page }) => {
+test('the five-qualities card has both players take turns within the card', async ({ page }) => {
   await page.goto('/')
-  await page.getByRole('button', { name: 'Nosso futuro' }).click()
-  await expect(page.getByRole('heading', { name: 'Nosso futuro' })).toBeVisible()
-  await expect(page.getByRole('radiogroup', { name: 'Ordem das cartas' })).toHaveCount(0)
+  await page.getByRole('button', { name: 'Novo jogo' }).click()
   await page.getByLabel('Nome do jogador 1').fill('Ana')
   await page.getByLabel('Nome do jogador 2').fill('Leo')
   await page.getByRole('button', { name: 'Começar' }).click()
 
-  await expect(page.getByRole('heading', { name: 'Nosso futuro' })).toBeVisible()
-  await page.getByRole('button', { name: 'Começar' }).click()
-  for (let i = 0; i < 22; i++) {
-    await expect(page.locator('article').getByText('Nosso futuro', { exact: true })).toBeVisible()
+  // Pass cards until the taking-turns card comes up (it is in round 2).
+  const label = page.getByText('Os dois, revezando')
+  for (let i = 0; i < 40 && !(await label.isVisible()); i++) {
+    const start = page.getByRole('button', { name: 'Começar' })
+    await (await start.isVisible() ? start : page.getByRole('button', { name: 'Passar' })).click()
+  }
+  await expect(label).toBeVisible()
+  const counter = page.getByRole('progressbar', { name: 'Qualidades ditas' })
+  const card = await page.locator('article h2').textContent()
+  const banner = page.locator('[aria-live]')
+  const first = (await banner.textContent())!.replace('Vez de ', '')
+  const second = first === 'Ana' ? 'Leo' : 'Ana'
+
+  for (let turn = 0; turn < 10; turn++) {
+    await expect(counter).toHaveAttribute('aria-valuenow', String(turn))
+    await expect(banner).toHaveText(`Vez de ${turn % 2 === 0 ? first : second}`)
+    await expect(page.locator('article h2')).toHaveText(card!)
     await page.getByRole('button', { name: 'Respondi' }).click()
   }
-  await expect(page.getByRole('heading', { name: 'Vocês responderam 11 de 11 cartas' })).toBeVisible()
+  await expect(label).toHaveCount(0)
+  await expect(page.locator('article h2')).not.toHaveText(card!)
 })

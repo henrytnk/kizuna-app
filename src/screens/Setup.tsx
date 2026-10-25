@@ -2,19 +2,14 @@ import { type FormEvent, useState } from 'react'
 import { Button } from '../components/ui'
 import { decodeCode, encodeSeed } from '../game/gameCode'
 import type { NewGameOptions } from '../game/reducer'
-import type { Form, Mode, Order, Player } from '../game/types'
+import type { Form, Order, Player } from '../game/types'
 
 interface Props {
-  initial?: Partial<Pick<NewGameOptions, 'players' | 'mode' | 'order' | 'seed'>>
+  initial?: Partial<Pick<NewGameOptions, 'players' | 'order' | 'seed'>>
   /** Joining a game started on another phone: asks for its code instead of making a new seed. */
   joining?: boolean
   onStart: (o: Omit<NewGameOptions, 'seed'> & { seed?: number }) => void
   onBack: () => void
-}
-
-const ABOUT: Record<Mode, string> = {
-  conexao: '36 perguntas em três rodadas, cada uma mais pessoal. Cerca de 45 minutos.',
-  futuro: '11 perguntas sobre relacionamento, família, casa, dinheiro e filhos. Cerca de 30 minutos.',
 }
 
 const DEFAULT_PLAYERS: [Player, Player] = [
@@ -56,7 +51,6 @@ function Segmented<T extends string>({
 export function Setup({ initial, joining = false, onStart, onBack }: Props) {
   const [players, setPlayers] = useState<[Player, Player]>(initial?.players ?? DEFAULT_PLAYERS)
   const [order, setOrder] = useState<Order>(initial?.order ?? 'by-round')
-  const [mode, setMode] = useState<Mode>(initial?.mode ?? 'conexao')
   const [code, setCode] = useState(joining && initial?.seed !== undefined ? encodeSeed(initial.seed) : '')
   const [codeError, setCodeError] = useState(false)
 
@@ -75,7 +69,7 @@ export function Setup({ initial, joining = false, onStart, onBack }: Props) {
       return
     }
     const named = players.map((p, i) => ({ ...p, name: p.name.trim() || `Jogador ${i + 1}` })) as [Player, Player]
-    onStart({ players: named, mode, order, seed })
+    onStart({ players: named, order, seed })
   }
 
   return (
@@ -85,10 +79,12 @@ export function Setup({ initial, joining = false, onStart, onBack }: Props) {
           ← Voltar
         </button>
       </header>
-      <h1 className="font-display font-extrabold text-3xl">
-        {joining ? 'Entrar no jogo' : mode === 'futuro' ? 'Nosso futuro' : 'Novo jogo'}
-      </h1>
-      {!joining && <p className="mt-2 text-sm leading-relaxed text-muted">{ABOUT[mode]}</p>}
+      <h1 className="font-display font-extrabold text-3xl">{joining ? 'Entrar no jogo' : 'Novo jogo'}</h1>
+      {!joining && (
+        <p className="mt-2 text-sm leading-relaxed text-muted">
+          48 perguntas em três rodadas, cada uma mais pessoal. Cerca de uma hora.
+        </p>
+      )}
 
       <div className="mt-6 flex flex-1 flex-col gap-6">
         {joining && (
@@ -113,17 +109,8 @@ export function Setup({ initial, joining = false, onStart, onBack }: Props) {
             <p id="code-help" className="text-sm leading-relaxed text-muted">
               {codeError
                 ? 'Esse código não parece certo: são 4 letras ou números.'
-                : 'Usem os mesmos nomes, na mesma ordem, e o mesmo jogo do outro celular.'}
+                : 'Usem os mesmos nomes, na mesma ordem, e a mesma ordem das cartas do outro celular.'}
             </p>
-            <Segmented<Mode>
-              label="Jogo"
-              value={mode}
-              onChange={setMode}
-              options={[
-                { value: 'conexao', label: 'Conexão' },
-                { value: 'futuro', label: 'Nosso futuro' },
-              ]}
-            />
           </fieldset>
         )}
         {([0, 1] as const).map((i) => (
@@ -156,7 +143,6 @@ export function Setup({ initial, joining = false, onStart, onBack }: Props) {
           </fieldset>
         ))}
 
-        {mode === 'conexao' && (
         <fieldset className="flex flex-col gap-3">
           <legend className="mb-2 text-sm text-muted">Ordem das cartas</legend>
           <Segmented<Order>
@@ -174,7 +160,6 @@ export function Setup({ initial, joining = false, onStart, onBack }: Props) {
               : 'Todas as perguntas misturadas, das leves às mais profundas.'}
           </p>
         </fieldset>
-        )}
       </div>
 
       <Button type="submit" className="mt-8">

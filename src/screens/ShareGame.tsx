@@ -40,10 +40,7 @@ export function ShareGame({ game, onClose }: { game: GameState; onClose: () => v
           {code}
         </p>
         <p className="text-sm leading-relaxed text-muted">
-          {game.mode === 'futuro'
-            ? 'Jogo Nosso futuro'
-            : `Jogo Conexão, ordem ${game.order === 'random' ? 'aleatória' : 'por rodada'}`}
-          . Usem a mesma ordem de nomes:{' '}
+          {game.order === 'random' ? 'Ordem aleatória' : 'Ordem por rodada'}. Usem a mesma ordem de nomes:{' '}
           <span className="text-ink">{game.players[0].name}</span> começa. Cada celular avança por conta própria.
         </p>
         <div className="mt-6 flex flex-col gap-3">

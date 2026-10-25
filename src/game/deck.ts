@@ -85,17 +85,14 @@ export function interleaveThemes(cards: readonly Card[], rand: () => number): Ca
   return sequence.map((t) => byTheme.get(themes[t])![next[t]++])
 }
 
-export function buildDeck(cards: readonly Card[], s: Pick<GameState, 'seed' | 'mode' | 'order'>): string[] {
+export function buildDeck(cards: readonly Card[], s: Pick<GameState, 'seed' | 'order'>): string[] {
   const rand = mulberry32(s.seed)
-  const pool = cards.filter((c) => c.mode === s.mode)
   const byRound = (arrange: (round: Card[]) => Card[]) =>
-    ([1, 2, 3] as const).flatMap((r) => arrange(pool.filter((c) => c.round === r)))
+    ([1, 2, 3] as const).flatMap((r) => arrange(cards.filter((c) => c.round === r)))
 
-  // Nosso futuro: lighter cards first, then deeper ones, each shuffled. Its themes are uneven on purpose.
-  if (s.mode === 'futuro') return byRound((round) => shuffle(round, rand)).map((c) => c.id)
   // By round, the guide's order: passado, presente and futuro take turns, never the same theme twice in a row.
   // Fully random only avoids three in a row, so it stays surprising.
-  const ordered = s.order === 'random' ? smoothShuffle(pool, rand) : byRound((round) => interleaveThemes(round, rand))
+  const ordered = s.order === 'random' ? smoothShuffle(cards, rand) : byRound((round) => interleaveThemes(round, rand))
   return ordered.map((c) => c.id)
 }
 

@@ -17,9 +17,8 @@ function isValidGame(g: unknown): g is GameState {
   const s = g as Record<string, unknown>
   const deck = s.deck
   return (
-    s.version === 2 &&
+    s.version === 3 &&
     Number.isInteger(s.seed) &&
-    (s.mode === 'conexao' || s.mode === 'futuro') &&
     (s.order === 'by-round' || s.order === 'random') &&
     Array.isArray(s.players) &&
     s.players.length === 2 &&

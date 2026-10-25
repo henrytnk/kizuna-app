@@ -1,14 +1,15 @@
 export type Round = 1 | 2 | 3
-/** 'conexao' is the 36-question closeness game; 'futuro' is Nosso futuro, about the long term. */
-export type Mode = 'conexao' | 'futuro'
 export type Theme = 'passado' | 'presente' | 'futuro'
 
 export interface Card {
   id: string
-  mode: Mode
-  /** Nosso futuro uses rounds 1 (lighter) and 2 (deeper) to order its cards, under a single intro. */
   round: Round
   theme: Theme
+  /**
+   * Both answer within one card, taking turns, as in the original procedure's
+   * "alternate sharing… a total of five items". Its text has no {masc|fem} or {parceiro}.
+   */
+  together?: boolean
   /** May contain {masc|fem} pairs and {parceiro}. */
   text: string
   followUp: string
@@ -27,10 +28,9 @@ export type Order = 'by-round' | 'random'
 export type Phase = 'round-intro' | 'card' | 'eye-contact' | 'done'
 
 export interface GameState {
-  version: 2
+  version: 3
   /** 20-bit integer; also the game code for a second phone. */
   seed: number
-  mode: Mode
   order: Order
   players: [Player, Player]
   /** Card IDs in deal order. Built once per game, never rebuilt. */

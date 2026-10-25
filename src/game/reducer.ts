@@ -1,12 +1,11 @@
 import { CARDS, getCard } from './cards'
 import { buildDeck } from './deck'
-import type { Card, GameState, Mode, Order, Player, Snapshot } from './types'
+import type { Card, GameState, Order, Player, Snapshot } from './types'
 
 const UNDO_LIMIT = 10
 
 export interface NewGameOptions {
   players: [Player, Player]
-  mode: Mode
   order: Order
   seed: number
   tableMode?: boolean
@@ -16,6 +15,8 @@ export type Action =
   | ({ type: 'START' } & NewGameOptions)
   | { type: 'BEGIN_ROUND'; at: number }
   | { type: 'ANSWERED' }
+  /** A taking-turns card: both have answered, together. */
+  | { type: 'ANSWERED_TOGETHER' }
   | { type: 'PASS' }
   | { type: 'UNDO' }
   | { type: 'FINISH' }
@@ -24,9 +25,8 @@ export type Action =
 
 export function createGame(o: NewGameOptions): GameState {
   return {
-    version: 2,
+    version: 3,
     seed: o.seed,
-    mode: o.mode,
     order: o.order,
     players: o.players,
     deck: buildDeck(CARDS, o),
@@ -39,9 +39,8 @@ export function createGame(o: NewGameOptions): GameState {
   }
 }
 
-/** A "segment" is what gets its own intro screen: each round in by-round mode, the whole mix in random mode, and all of Nosso futuro. */
+/** A "segment" is what gets its own intro screen: each round in by-round mode, the whole mix in random mode. */
 export function segmentOf(card: Card, order: Order): string {
-  if (card.mode === 'futuro') return 'futuro'
   return order === 'by-round' ? String(card.round) : 'mix'
 }
 
@@ -61,9 +60,7 @@ function withUndo(prev: GameState, next: GameState): GameState {
 
 function advance(s: GameState): GameState {
   const next = s.index + 1
-  // The eye-contact finale closes the closeness game; Nosso futuro goes straight to the summary.
-  const finale = s.mode === 'futuro' ? 'done' : 'eye-contact'
-  const phase = next >= s.deck.length ? finale : startsSegment(s, next) ? 'round-intro' : 'card'
+  const phase = next >= s.deck.length ? 'eye-contact' : startsSegment(s, next) ? 'round-intro' : 'card'
   return { ...s, index: next, answeredBy: 0, phase }
 }
 
@@ -77,6 +74,8 @@ export function reducer(s: GameState | null, a: Action): GameState | null {
     case 'ANSWERED':
       if (s.phase !== 'card') return s
       return withUndo(s, s.answeredBy === 0 ? { ...s, answeredBy: 1 } : advance(s))
+    case 'ANSWERED_TOGETHER':
+      return s.phase === 'card' ? withUndo(s, advance(s)) : s
     case 'PASS':
       if (s.phase !== 'card') return s
       return withUndo(s, advance({ ...s, passed: [...s.passed, s.deck[s.index]] }))

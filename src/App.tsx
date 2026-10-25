@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { RoundTimer } from './components/RoundTimer'
 import { newSeed } from './game/deck'
 import { type Invite, parseInviteHash } from './game/gameCode'
-import type { Mode } from './game/types'
 import { currentCard, type NewGameOptions, segmentOf } from './game/reducer'
 import { SEGMENTS } from './game/rounds'
 import { useGame } from './game/useGame'
@@ -23,7 +22,6 @@ export default function App() {
   // Opened from a second-phone link (#g=…): go straight to joining that game.
   const [invite, setInvite] = useState<Invite | null>(() => parseInviteHash(location.hash))
   const [view, setView] = useState<View>(invite ? 'join' : 'home')
-  const [newMode, setNewMode] = useState<Mode>('conexao')
   const wakeLockOk = useWakeLock(view === 'game' && game !== null && game.phase !== 'done')
   useTurnHaptics(view === 'game' ? game : null)
 
@@ -42,11 +40,7 @@ export default function App() {
       <Setup
         key={view}
         joining={joining}
-        initial={
-          joining && invite
-            ? { players: game?.players, ...invite }
-            : { players: game?.players, order: game?.order, mode: joining ? game?.mode : newMode }
-        }
+        initial={joining && invite ? { players: game?.players, ...invite } : { players: game?.players, order: game?.order }}
         onStart={start}
         onBack={() => setView('home')}
       />
@@ -59,10 +53,7 @@ export default function App() {
         canContinue={game !== null && game.phase !== 'done'}
         savedGameBroken={loadStatus === 'invalid' && game === null}
         onContinue={() => setView('game')}
-        onNewGame={(mode) => {
-          setNewMode(mode)
-          setView('setup')
-        }}
+        onNewGame={() => setView('setup')}
         onJoin={() => {
           setInvite(null)
           setView('join')
@@ -114,11 +105,15 @@ export default function App() {
               minutes={SEGMENTS[segmentOf(card, game.order)].minutes}
             />
           )}
-          <CardScreen
-            game={game}
-            onAnswered={() => dispatch({ type: 'ANSWERED' })}
-            onPass={() => dispatch({ type: 'PASS' })}
-          />
+          {card && (
+            <CardScreen
+              game={game}
+              card={card}
+              onAnswered={() => dispatch({ type: 'ANSWERED' })}
+              onAnsweredTogether={() => dispatch({ type: 'ANSWERED_TOGETHER' })}
+              onPass={() => dispatch({ type: 'PASS' })}
+            />
+          )}
         </>
       )}
     </div>

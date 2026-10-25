@@ -1,11 +1,10 @@
 import { Button, Logo } from '../components/ui'
-import type { Mode } from '../game/types'
 
 interface Props {
   canContinue: boolean
   savedGameBroken: boolean
   onContinue: () => void
-  onNewGame: (mode: Mode) => void
+  onNewGame: () => void
   onJoin: () => void
 }
 
@@ -28,11 +27,8 @@ export function Home({ canContinue, savedGameBroken, onContinue, onNewGame, onJo
       </div>
       <div className="flex flex-col gap-3">
         {canContinue && <Button onClick={onContinue}>Continuar</Button>}
-        <Button variant={canContinue ? 'secondary' : 'primary'} onClick={() => onNewGame('conexao')}>
+        <Button variant={canContinue ? 'secondary' : 'primary'} onClick={onNewGame}>
           {savedGameBroken ? 'Começar novo jogo' : 'Novo jogo'}
-        </Button>
-        <Button variant="secondary" onClick={() => onNewGame('futuro')}>
-          Nosso futuro
         </Button>
         <Button variant="ghost" onClick={onJoin}>
           Entrar com código
