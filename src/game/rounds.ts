@@ -1,7 +1,7 @@
 import type { Card, Theme } from './types'
 
 /** `minutes` is the suggested length shown by the round timer bar: about 15 per round of 12 cards, as in the guide. */
-export const SEGMENTS: Record<string, { title: string; subtitle: string; howTo: string; minutes: number }> = {
+export const SEGMENTS: Record<string, { title: string; subtitle?: string; howTo: string; minutes: number }> = {
   '1': {
     title: 'Rodada 1',
     subtitle: 'para aquecer',
@@ -28,7 +28,6 @@ export const SEGMENTS: Record<string, { title: string; subtitle: string; howTo: 
   },
   futuro: {
     title: 'Rodada final',
-    subtitle: 'o futuro de vocês',
     howTo: 'Família, casa, dinheiro, filhos. Não é pra concordar em tudo: é pra se conhecer. Qualquer um pode passar.',
     minutes: 30,
   },

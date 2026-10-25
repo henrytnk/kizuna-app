@@ -82,7 +82,7 @@ export function Setup({ initial, joining = false, onStart, onBack }: Props) {
       <h1 className="font-display font-extrabold text-3xl">{joining ? 'Entrar no jogo' : 'Novo jogo'}</h1>
       {!joining && (
         <p className="mt-2 text-sm leading-relaxed text-muted">
-          48 perguntas: três rodadas, cada uma mais pessoal, e uma rodada final sobre o futuro de vocês. Cerca de uma hora e quinze.
+          48 perguntas: três rodadas, cada uma mais pessoal, e a rodada final. Cerca de uma hora e quinze.
         </p>
       )}
 
