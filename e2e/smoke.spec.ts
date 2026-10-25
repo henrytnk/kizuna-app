@@ -154,6 +154,7 @@ test('the five-qualities card has both players take turns within the card', asyn
     await expect(page.locator('article h2')).toHaveText(card!)
     await page.getByRole('button', { name: 'Respondi' }).click()
   }
+  // Next is another card, or the round 3 intro when this was round 2's last card.
   await expect(label).toHaveCount(0)
-  await expect(page.locator('article h2')).not.toHaveText(card!)
+  await expect(page.getByRole('heading', { name: card!, exact: true })).toHaveCount(0)
 })
