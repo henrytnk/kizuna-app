@@ -165,7 +165,7 @@ test('cards come in the exact order of the list', async ({ page }) => {
   await page.getByRole('button', { name: 'Começar' }).click()
   await page.getByRole('button', { name: 'Começar' }).click()
   const expected = [
-    'Qual é a sua memória mais preciosa?',
+    'Conte uma memória preciosa.',
     'Qual era o seu maior sonho quando era criança?',
     /^Quando foi a última vez que você cantou/,
     'Como eram os fins de semana na sua casa quando você era criança?',

@@ -38,7 +38,7 @@ describe('deal order', () => {
 
   it('starts with the memory card and ends with the children card', () => {
     const deck = buildDeck(CARDS, { seed: 1, order: 'listed' }).map(getCard)
-    expect(deck[0].text).toBe('Qual é a sua memória mais preciosa?')
+    expect(deck[0].text).toBe('Conte uma memória preciosa.')
     expect(deck.at(-1)!.text).toBe('Você se imagina tendo filhos? Como você imagina ser {pai|mãe}?')
   })
 

@@ -1,5 +1,5 @@
 [
-  { "id": "pa-01", "round": 1, "theme": "passado", "text": "Qual é a sua memória mais preciosa?", "followUp": "E a mais feliz da sua infância?" },
+  { "id": "pa-01", "round": 1, "theme": "passado", "text": "Conte uma memória preciosa.", "followUp": "E qual é a memória mais feliz da sua infância?" },
   { "id": "pa-08", "round": 1, "theme": "passado", "text": "Qual era o seu maior sonho quando era criança?", "followUp": "Sobrou alguma coisa desse sonho em você hoje?" },
   { "id": "pa-07", "round": 1, "theme": "passado", "text": "Quando foi a última vez que você cantou {sozinho|sozinha}? E pra alguém?", "followUp": "Que música era?" },
   { "id": "pa-10", "round": 1, "theme": "passado", "text": "Como eram os fins de semana na sua casa quando você era criança?", "followUp": "Tem alguma tradição dessa época que você gostaria de manter?" },
@@ -17,7 +17,7 @@
   { "id": "pa-05", "round": 2, "theme": "passado", "text": "Qual amizade marcou a sua vida, e por quê?", "followUp": "O que faz alguém virar amigo de verdade pra você?" },
   { "id": "pa-11", "round": 2, "theme": "passado", "text": "Quem foi a pessoa que mais te influenciou enquanto você crescia?", "followUp": "O que dela você carrega até hoje?" },
   { "id": "pa-12", "round": 2, "theme": "passado", "text": "Qual foi a decisão mais corajosa que você já tomou?", "followUp": "O que te deu coragem naquela hora?" },
-  { "id": "pr-02", "round": 2, "theme": "presente", "text": "Diga três coisas pelas quais você é {grato|grata} na sua vida neste ano.", "followUp": "Qual delas pesou mais pra você?" },
+  { "id": "pr-02", "round": 2, "theme": "presente", "text": "O que mais te deixou {grato|grata} neste ano?", "followUp": "Por que isso pesou tanto pra você?" },
   { "id": "pr-04", "round": 2, "theme": "presente", "text": "Qual conquista recente te deixou mais {orgulhoso|orgulhosa}?", "followUp": "Como foi o momento em que você percebeu que tinha conseguido?" },
   { "id": "pr-08", "round": 2, "theme": "presente", "text": "O que, pra você, é sério demais pra virar piada?", "followUp": "Sempre foi assim, ou mudou com o tempo?" },
   { "id": "pr-09", "round": 2, "theme": "presente", "text": "O que você está tentando melhorar em você?", "followUp": "O que te motivou a começar?" },
@@ -25,7 +25,7 @@
   { "id": "pr-19", "round": 2, "theme": "presente", "text": "O que tem te dado mais energia ultimamente, e o que tem te cansado?", "followUp": "O que você poderia fazer pra ter mais do primeiro e menos do segundo?" },
   { "id": "fu-01", "round": 2, "theme": "futuro", "text": "Tem algo que você sonha fazer há muito tempo e ainda não fez?", "followUp": "O que tem te segurado até agora?" },
   { "id": "fu-05", "round": 2, "theme": "futuro", "text": "Onde você quer estar daqui a dez anos?", "followUp": "E quais são as prioridades pra chegar lá?" },
-  { "id": "pr-18", "round": 2, "theme": "presente", "together": true, "text": "Revezem: cada um diz uma qualidade que admira no outro, até cada um ter dito cinco.", "followUp": "Qual qualidade dita sobre você mais te surpreendeu?" },
+  { "id": "pr-18", "round": 2, "theme": "presente", "together": true, "text": "Digam cinco coisas que vocês admiram um no outro, revezando: uma de cada vez, até cada um ter dito cinco.", "followUp": "Qual das coisas ditas sobre você mais te surpreendeu?" },
 
   { "id": "pa-03", "round": 3, "theme": "passado", "text": "Quando foi a última vez que você chorou na frente de alguém? E {sozinho|sozinha}?", "followUp": "Como foi ter alguém por perto naquela hora?" },
   { "id": "pa-06", "round": 3, "theme": "passado", "text": "Se pudesse mudar uma coisa no jeito como você foi {criado|criada}, o que seria?", "followUp": "E o que você faria exatamente igual?" },
@@ -33,10 +33,10 @@
   { "id": "pa-13", "round": 3, "theme": "passado", "text": "O que você, aos 15 anos, acharia de quem você é hoje?", "followUp": "E o que você diria pra você daquela idade?" },
   { "id": "pr-14", "round": 3, "theme": "presente", "text": "O que a maioria das pessoas não percebe sobre você logo de cara?", "followUp": "O que você gostaria que elas percebessem?" },
   { "id": "pr-01", "round": 3, "theme": "presente", "text": "Conte o que você gosta em {parceiro}. Seja bem {sincero|sincera}: diga coisas que você não diria pra alguém que acabou de conhecer.", "followUp": "E o que você ainda está {curioso|curiosa} pra descobrir?" },
-  { "id": "pr-03", "round": 3, "theme": "presente", "text": "Diga três frases verdadeiras começando com “Nós dois…”. Por exemplo: “Nós dois estamos aqui sentindo…”", "followUp": "Qual foi a mais difícil de dizer?" },
+  { "id": "pr-03", "round": 3, "theme": "presente", "text": "Diga três frases verdadeiras começando com “Nós dois…”. Por exemplo: “Nós dois ficamos de mau humor com fome.”", "followUp": "Qual foi a mais difícil de dizer?" },
   { "id": "pr-05", "round": 3, "theme": "presente", "text": "Conte algo que está te preocupando agora. {parceiro} diz como lidaria com isso e como você parece estar se sentindo.", "followUp": "{parceiro} acertou como você está se sentindo?" },
   { "id": "fu-02", "round": 3, "theme": "futuro", "text": "O que seria importante {parceiro} saber sobre você pra vocês ficarem ainda mais próximos?", "followUp": "E o que você gostaria de saber sobre {parceiro}?" },
-  { "id": "fu-03", "round": 3, "theme": "futuro", "text": "Que papel o amor e o carinho têm na sua vida?", "followUp": "Como você gosta de demonstrar e de receber carinho?" },
+  { "id": "fu-03", "round": 3, "theme": "futuro", "text": "Como você gosta de demonstrar e de receber carinho?", "followUp": "Qual foi a última vez que alguém acertou em cheio nisso com você?" },
   { "id": "fu-04", "round": 3, "theme": "futuro", "text": "Complete a frase: “Eu queria ter alguém com quem pudesse dividir…”", "followUp": "Por que isso?" },
   { "id": "fu-11", "round": 3, "theme": "futuro", "text": "Quando você for mais {velho|velha}, que história gostaria de poder contar sobre a sua vida?", "followUp": "Que parte dessa história já começou?" },
 
@@ -48,7 +48,7 @@
   { "id": "fu-09", "round": 4, "theme": "futuro", "text": "Como você imagina a sua casa e a sua rotina daqui a alguns anos?", "followUp": "E quem você imagina por perto nesse cenário?" },
   { "id": "pa-15", "round": 4, "theme": "passado", "text": "Como a sua família lidava com brigas, e o que você quer fazer igual ou diferente?", "followUp": "Do que você precisa pra fazer as pazes depois de uma briga?" },
   { "id": "pa-14", "round": 4, "theme": "passado", "text": "Como era a relação com dinheiro na sua casa, e como você quer que seja na sua?", "followUp": "Como você gostaria de decidir sobre dinheiro a dois?" },
-  { "id": "pr-17", "round": 4, "theme": "presente", "text": "Quando você está mal, como gosta de ser {cuidado|cuidada}?", "followUp": "E o que costuma piorar, mesmo quando a intenção é boa?" },
+  { "id": "pr-17", "round": 4, "theme": "presente", "text": "Quando você está mal, você prefere conversar sobre o que aconteceu, ter companhia em silêncio ou ficar um tempo a sós pra pensar?", "followUp": "Como {parceiro} pode perceber que você está mal, se você não disser?" },
   { "id": "pr-16", "round": 4, "theme": "presente", "text": "O que {parceiro} faz que te faz se sentir {amado|amada}?", "followUp": "Tem algo que você gostaria que acontecesse mais vezes?" },
   { "id": "fu-14", "round": 4, "theme": "futuro", "text": "Que valores você gostaria que guiassem a sua família?", "followUp": "De onde vem cada um deles pra você?" },
   { "id": "fu-15", "round": 4, "theme": "futuro", "text": "Você se imagina tendo filhos? Como você imagina ser {pai|mãe}?", "followUp": "O que você gostaria de passar pra eles?" }
