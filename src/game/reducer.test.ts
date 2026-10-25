@@ -9,7 +9,7 @@ const players: GameState['players'] = [
   { name: 'Leo', form: 'm' },
 ]
 
-function start(order: Order = 'by-round'): GameState {
+function start(order: Order = 'listed'): GameState {
   return createGame({ players, order, seed: 12345 })
 }
 
@@ -69,8 +69,8 @@ describe('reducer', () => {
     expect(currentPlayer(s)).toBe(0)
   })
 
-  it('shows one intro per round in by-round mode, Nosso futuro included', () => {
-    const { phases } = playAll(start('by-round'))
+  it('shows one intro per round in list order, Nosso futuro included', () => {
+    const { phases } = playAll(start('listed'))
     expect(phases.filter((p) => p === 'round-intro')).toHaveLength(4)
   })
 
@@ -91,7 +91,7 @@ describe('reducer', () => {
   })
 
   it('deals every card once and ends on eye contact, then done', () => {
-    const { s, dealt } = playAll(start('by-round'))
+    const { s, dealt } = playAll(start('listed'))
     expect(dealt).toEqual(s.deck)
     expect(s.phase).toBe('eye-contact')
     expect(run(s, 'FINISH').phase).toBe('done')

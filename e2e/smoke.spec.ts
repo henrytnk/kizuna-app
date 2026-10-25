@@ -158,3 +158,23 @@ test('the five-qualities card has both players take turns within the card', asyn
   await expect(label).toHaveCount(0)
   await expect(page.getByRole('heading', { name: card!, exact: true })).toHaveCount(0)
 })
+
+test('cards come in the exact order of the list', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Novo jogo' }).click()
+  await page.getByRole('button', { name: 'Começar' }).click()
+  await page.getByRole('button', { name: 'Começar' }).click()
+  const expected = [
+    'Qual é a sua memória mais preciosa?',
+    'Qual era o seu maior sonho quando era criança?',
+    /^Quando foi a última vez que você cantou/,
+    'Como eram os fins de semana na sua casa quando você era criança?',
+    /^Diga três coisas que você e .+ parecem ter em comum\.$/,
+    'Como seria um dia perfeito pra você?',
+  ]
+  for (const text of expected) {
+    await expect(page.locator('article h2')).toHaveText(text)
+    await page.getByRole('button', { name: 'Respondi' }).click()
+    await page.getByRole('button', { name: 'Respondi' }).click()
+  }
+})

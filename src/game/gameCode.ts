@@ -28,7 +28,7 @@ export function decodeCode(input: string): number | null {
   return seed
 }
 
-/** `#g=K7Q2&o=r`: the hash never reaches the server. o is r (por rodada) or a (aleatória). */
+/** `#g=K7Q2&o=r`: the hash never reaches the server. o is r (na ordem) or a (aleatória). */
 export function inviteHash(i: Invite): string {
   return `#g=${encodeSeed(i.seed)}&o=${i.order === 'random' ? 'a' : 'r'}`
 }
@@ -37,5 +37,5 @@ export function parseInviteHash(hash: string): Invite | null {
   const params = new URLSearchParams(hash.replace(/^#/, ''))
   const seed = decodeCode(params.get('g') ?? '')
   if (seed === null) return null
-  return { seed, order: params.get('o') === 'a' ? 'random' : 'by-round' }
+  return { seed, order: params.get('o') === 'a' ? 'random' : 'listed' }
 }

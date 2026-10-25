@@ -19,7 +19,7 @@ function isValidGame(g: unknown): g is GameState {
   return (
     s.version === 3 &&
     Number.isInteger(s.seed) &&
-    (s.order === 'by-round' || s.order === 'random') &&
+    (s.order === 'listed' || s.order === 'random') &&
     Array.isArray(s.players) &&
     s.players.length === 2 &&
     s.players.every(isPlayer) &&

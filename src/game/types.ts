@@ -11,8 +11,6 @@ export interface Card {
    * "alternate sharing… a total of five items". Its text has no {masc|fem} or {parceiro}.
    */
   together?: boolean
-  /** Nosso futuro only: dealt after its lighter questions (family, values, care, money, conflict, children). */
-  deeper?: boolean
   /** May contain {masc|fem} pairs and {parceiro}. */
   text: string
   followUp: string
@@ -26,7 +24,8 @@ export interface Player {
   form: Form
 }
 
-export type Order = 'by-round' | 'random'
+/** 'listed' deals the approved list in order; 'random' shuffles rounds 1–3. */
+export type Order = 'listed' | 'random'
 
 export type Phase = 'round-intro' | 'card' | 'eye-contact' | 'done'
 

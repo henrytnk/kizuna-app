@@ -28,9 +28,9 @@ describe('game code', () => {
 
 describe('invite link', () => {
   it('carries seed and order', () => {
-    expect(inviteHash({ seed: decodeCode('K7Q2')!, order: 'by-round' })).toBe('#g=K7Q2&o=r')
+    expect(inviteHash({ seed: decodeCode('K7Q2')!, order: 'listed' })).toBe('#g=K7Q2&o=r')
     for (const invite of [
-      { seed: 0, order: 'by-round' },
+      { seed: 0, order: 'listed' },
       { seed: 2 ** 20 - 1, order: 'random' },
     ] as const) {
       expect(parseInviteHash(inviteHash(invite))).toEqual(invite)
@@ -49,7 +49,7 @@ describe('invite link', () => {
       { name: 'Leo', form: 'm' },
     ]
     for (const seed of [1, 777, 99_999, 2 ** 20 - 1]) {
-      for (const order of ['by-round', 'random'] as const) {
+      for (const order of ['listed', 'random'] as const) {
         const host = createGame({ players, order, seed })
         const invite = parseInviteHash(inviteHash(host))!
         expect(createGame({ players, ...invite }).deck).toEqual(host.deck)

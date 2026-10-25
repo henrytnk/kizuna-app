@@ -5,7 +5,7 @@ import { render } from './render'
 import type { Order, Player } from './types'
 
 const SEEDS = Array.from({ length: 10_000 }, (_, i) => Math.floor(mulberry32(i + 1)() * 2 ** 20))
-const SETTINGS: { order: Order }[] = [{ order: 'by-round' }, { order: 'random' }]
+const SETTINGS: { order: Order }[] = [{ order: 'listed' }, { order: 'random' }]
 const SIZE = 48
 
 describe('cards.json', () => {
@@ -22,18 +22,30 @@ describe('cards.json', () => {
   })
 })
 
-describe('round membership', () => {
-  // The approved list. A card changes round only by changing this test on purpose.
-  const APPROVED: Record<number, string[]> = {
-    1: ['pa-01', 'pa-07', 'pa-08', 'pa-10', 'pr-06', 'pr-07', 'pr-10', 'pr-11', 'pr-12', 'fu-06', 'fu-07', 'fu-08'],
-    2: ['pa-02', 'pa-04', 'pa-05', 'pa-11', 'pa-12', 'pr-02', 'pr-04', 'pr-08', 'pr-09', 'pr-13', 'pr-18', 'fu-01', 'fu-05'],
-    3: ['pa-03', 'pa-06', 'pa-09', 'pa-13', 'pr-01', 'pr-03', 'pr-05', 'pr-14', 'fu-02', 'fu-03', 'fu-04', 'fu-11'],
-    4: ['pa-14', 'pa-15', 'pr-15', 'pr-16', 'pr-17', 'fu-09', 'fu-10', 'fu-12', 'fu-13', 'fu-14', 'fu-15'],
-  }
+describe('deal order', () => {
+  // The approved list, card by card: 1–12, 13–24 then the five qualities, 25–36, 37–41 then A–F.
+  // Cards are dealt in exactly this order. Change it only on purpose, here and in cards.json.
+  const APPROVED_ORDER = [
+    'pa-01', 'pa-08', 'pa-07', 'pa-10', 'pr-06', 'pr-07', 'pr-10', 'pr-11', 'pr-12', 'fu-06', 'fu-07', 'fu-08',
+    'pa-02', 'pa-04', 'pa-05', 'pa-11', 'pa-12', 'pr-02', 'pr-04', 'pr-08', 'pr-09', 'pr-13', 'fu-01', 'fu-05', 'pr-18',
+    'pa-03', 'pa-06', 'pa-09', 'pa-13', 'pr-14', 'pr-01', 'pr-03', 'pr-05', 'fu-02', 'fu-03', 'fu-04', 'fu-11',
+    'pr-15', 'fu-10', 'fu-12', 'fu-13', 'fu-09', 'pa-15', 'pa-14', 'pr-17', 'pr-16', 'fu-14', 'fu-15',
+  ]
 
-  it.each([1, 2, 3, 4])('round %i holds exactly the approved cards', (r) => {
-    const ids = CARDS.filter((c) => c.round === r).map((c) => c.id)
-    expect([...ids].sort()).toEqual([...APPROVED[r]].sort())
+  it('deals the approved list exactly, for every seed', () => {
+    for (const seed of SEEDS.slice(0, 1000)) expect(buildDeck(CARDS, { seed, order: 'listed' })).toEqual(APPROVED_ORDER)
+  })
+
+  it('starts with the memory card and ends with the children card', () => {
+    const deck = buildDeck(CARDS, { seed: 1, order: 'listed' }).map(getCard)
+    expect(deck[0].text).toBe('Qual é a sua memória mais preciosa?')
+    expect(deck.at(-1)!.text).toBe('Você se imagina tendo filhos? Como você imagina ser {pai|mãe}?')
+  })
+
+  it('keeps Nosso futuro last, in list order, even in random order', () => {
+    for (const seed of SEEDS.slice(0, 1000)) {
+      expect(buildDeck(CARDS, { seed, order: 'random' }).slice(-11)).toEqual(APPROVED_ORDER.slice(-11))
+    }
   })
 })
 
@@ -59,27 +71,8 @@ describe('buildDeck', () => {
     expect(a).not.toEqual(b)
   })
 
-  it('deals rounds in order 1 → 2 → 3 → Nosso futuro in by-round mode', () => {
-    for (const seed of SEEDS.slice(0, 2000)) {
-      const rounds = buildDeck(CARDS, { seed, order: 'by-round' }).map((id) => getCard(id).round)
-      expect(rounds).toEqual([...rounds].sort((x, y) => x - y))
-    }
-  })
 
-  it.each(SETTINGS)('ends with Nosso futuro, lighter questions before deeper ones (%o)', (s) => {
-    for (const seed of SEEDS.slice(0, 2000)) {
-      const tail = buildDeck(CARDS, { seed, ...s }).slice(-11).map(getCard)
-      expect(tail.every((c) => c.round === 4)).toBe(true)
-      expect(tail.map((c) => (c.deeper ? 1 : 0))).toEqual([0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1])
-    }
-  })
 
-  it('alternates themes within each round: never the same theme twice in a row', () => {
-    for (const seed of SEEDS) {
-      const deck = buildDeck(CARDS, { seed, order: 'by-round' }).map(getCard)
-      for (const r of [1, 2, 3]) expect(hasThemeRun(deck.filter((c) => c.round === r), 2)).toBe(false)
-    }
-  })
 
   it('never deals one theme three times in a row in random order', () => {
     for (const seed of SEEDS) {

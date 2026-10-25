@@ -50,7 +50,7 @@ function Segmented<T extends string>({
 
 export function Setup({ initial, joining = false, onStart, onBack }: Props) {
   const [players, setPlayers] = useState<[Player, Player]>(initial?.players ?? DEFAULT_PLAYERS)
-  const [order, setOrder] = useState<Order>(initial?.order ?? 'by-round')
+  const [order, setOrder] = useState<Order>(initial?.order ?? 'listed')
   const [code, setCode] = useState(joining && initial?.seed !== undefined ? encodeSeed(initial.seed) : '')
   const [codeError, setCodeError] = useState(false)
 
@@ -150,14 +150,14 @@ export function Setup({ initial, joining = false, onStart, onBack }: Props) {
             value={order}
             onChange={setOrder}
             options={[
-              { value: 'by-round', label: 'Por rodada' },
+              { value: 'listed', label: 'Na ordem' },
               { value: 'random', label: 'Aleatória' },
             ]}
           />
           <p className="text-sm leading-relaxed text-muted">
-            {order === 'by-round'
-              ? 'Recomendado: as perguntas ficam mais profundas a cada rodada.'
-              : 'Todas as perguntas misturadas, das leves às mais profundas.'}
+            {order === 'listed'
+              ? 'Recomendado: as perguntas na ordem do jogo, cada rodada mais pessoal.'
+              : 'As rodadas 1 a 3 misturadas; Nosso futuro continua no fim.'}
           </p>
         </fieldset>
       </div>

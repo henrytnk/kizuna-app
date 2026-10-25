@@ -40,14 +40,14 @@
   { "id": "fu-11", "round": 3, "theme": "futuro", "text": "Quando você for mais {velho|velha}, que história gostaria de poder contar sobre a sua vida?", "followUp": "Que parte dessa história já começou?" },
 
   { "id": "pr-15", "round": 4, "theme": "presente", "text": "Pra você, como é um relacionamento que dá certo?", "followUp": "O que você já viu de perto que te ensinou isso?" },
-  { "id": "fu-10", "round": 4, "theme": "futuro", "deeper": true, "text": "Que papel a família tem na vida que você imagina?", "followUp": "Isso mudou com o tempo pra você?" },
+  { "id": "fu-10", "round": 4, "theme": "futuro", "text": "Que papel a família tem na vida que você imagina?", "followUp": "Isso mudou com o tempo pra você?" },
   { "id": "fu-12", "round": 4, "theme": "futuro", "text": "Como seria um fim de semana perfeito em família?", "followUp": "O que dele vem da família em que você cresceu?" },
   { "id": "fu-13", "round": 4, "theme": "futuro", "text": "Você se vê morando na sua cidade atual a longo prazo, ou sonha com outro lugar?", "followUp": "O que te prende, ou te chama, pra esse lugar?" },
   { "id": "fu-09", "round": 4, "theme": "futuro", "text": "Como você imagina a sua casa e a sua rotina daqui a alguns anos?", "followUp": "E quem você imagina por perto nesse cenário?" },
-  { "id": "pa-15", "round": 4, "theme": "passado", "deeper": true, "text": "Como a sua família lidava com brigas, e o que você quer fazer igual ou diferente?", "followUp": "Do que você precisa pra fazer as pazes depois de uma briga?" },
-  { "id": "pa-14", "round": 4, "theme": "passado", "deeper": true, "text": "Como era a relação com dinheiro na sua casa, e como você quer que seja na sua?", "followUp": "Como você gostaria de decidir sobre dinheiro a dois?" },
-  { "id": "pr-17", "round": 4, "theme": "presente", "deeper": true, "text": "Quando você está mal, como gosta de ser {cuidado|cuidada}?", "followUp": "E o que costuma piorar, mesmo quando a intenção é boa?" },
+  { "id": "pa-15", "round": 4, "theme": "passado", "text": "Como a sua família lidava com brigas, e o que você quer fazer igual ou diferente?", "followUp": "Do que você precisa pra fazer as pazes depois de uma briga?" },
+  { "id": "pa-14", "round": 4, "theme": "passado", "text": "Como era a relação com dinheiro na sua casa, e como você quer que seja na sua?", "followUp": "Como você gostaria de decidir sobre dinheiro a dois?" },
+  { "id": "pr-17", "round": 4, "theme": "presente", "text": "Quando você está mal, como gosta de ser {cuidado|cuidada}?", "followUp": "E o que costuma piorar, mesmo quando a intenção é boa?" },
   { "id": "pr-16", "round": 4, "theme": "presente", "text": "O que {parceiro} faz que te faz se sentir {amado|amada}?", "followUp": "Tem algo que você gostaria que acontecesse mais vezes?" },
-  { "id": "fu-14", "round": 4, "theme": "futuro", "deeper": true, "text": "Que valores você gostaria que guiassem a sua família?", "followUp": "De onde vem cada um deles pra você?" },
-  { "id": "fu-15", "round": 4, "theme": "futuro", "deeper": true, "text": "Você se imagina tendo filhos? Como você imagina ser {pai|mãe}?", "followUp": "O que você gostaria de passar pra eles?" }
+  { "id": "fu-14", "round": 4, "theme": "futuro", "text": "Que valores você gostaria que guiassem a sua família?", "followUp": "De onde vem cada um deles pra você?" },
+  { "id": "fu-15", "round": 4, "theme": "futuro", "text": "Você se imagina tendo filhos? Como você imagina ser {pai|mãe}?", "followUp": "O que você gostaria de passar pra eles?" }
 ]
