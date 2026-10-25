@@ -1,6 +1,8 @@
 import { expect, test } from '@playwright/test'
 
 test('a full game plays end to end on a phone', async ({ page }) => {
+  // With table mode on, every turn would wait for the 180° turn; reduced motion skips it (and is worth covering).
+  await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   await page.getByRole('button', { name: 'Novo jogo' }).click()
   await page.getByLabel('Nome do jogador 1').fill('Ana')
@@ -29,7 +31,7 @@ test('a full game plays end to end on a phone', async ({ page }) => {
   }
 
   await page.getByRole('button', { name: 'Pular' }).click()
-  await expect(page.getByRole('heading', { name: 'Vocês responderam 28 de 29 cartas' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Vocês responderam 35 de 36 cartas' })).toBeVisible()
 })
 
 test('loads offline after the first visit', async ({ page, context }) => {
@@ -56,7 +58,7 @@ test('two phones using the same code deal the same sequence', async ({ browser, 
 
   // One phone joins by link (settings come with it), another by typing the code.
   const viaLink = await (await browser.newContext()).newPage()
-  await viaLink.goto(`/#g=${code}&o=a&b=0`)
+  await viaLink.goto(`/#g=${code}&m=c&o=a`)
   await expect(viaLink.getByRole('heading', { name: 'Entrar no jogo' })).toBeVisible()
   await expect(viaLink.getByLabel('Código do jogo')).toHaveValue(code)
   await expect(viaLink).toHaveURL(/\/$/)
@@ -124,4 +126,22 @@ test('nothing covers the bottom buttons, and the page runs under its security po
   // The app itself must not trip its own policy. Netlify's badge does, from its injected script or its
   // srcdoc iframe: that is the point.
   expect(violations.filter((v) => !/^(about:srcdoc|\S*\/\.netlify\/)/.test(v))).toEqual([])
+})
+
+test('Nosso futuro plays its 11 cards and ends without the eye-contact finale', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Nosso futuro' }).click()
+  await expect(page.getByRole('heading', { name: 'Nosso futuro' })).toBeVisible()
+  await expect(page.getByRole('radiogroup', { name: 'Ordem das cartas' })).toHaveCount(0)
+  await page.getByLabel('Nome do jogador 1').fill('Ana')
+  await page.getByLabel('Nome do jogador 2').fill('Leo')
+  await page.getByRole('button', { name: 'Começar' }).click()
+
+  await expect(page.getByRole('heading', { name: 'Nosso futuro' })).toBeVisible()
+  await page.getByRole('button', { name: 'Começar' }).click()
+  for (let i = 0; i < 22; i++) {
+    await expect(page.locator('article').getByText('Nosso futuro', { exact: true })).toBeVisible()
+    await page.getByRole('button', { name: 'Respondi' }).click()
+  }
+  await expect(page.getByRole('heading', { name: 'Vocês responderam 11 de 11 cartas' })).toBeVisible()
 })

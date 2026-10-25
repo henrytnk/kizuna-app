@@ -2,15 +2,15 @@ import { describe, expect, it } from 'vitest'
 import { getCard } from './cards'
 import { type Action, answeredCount, createGame, currentCard, currentPlayer, reducer } from './reducer'
 import { parseSaved } from './storage'
-import type { GameState, Order } from './types'
+import type { GameState, Mode, Order } from './types'
 
 const players: GameState['players'] = [
   { name: 'Ana', form: 'f' },
   { name: 'Leo', form: 'm' },
 ]
 
-function start(order: Order = 'by-round', includeBonus = false): GameState {
-  return createGame({ players, order, includeBonus, seed: 12345 })
+function start(order: Order = 'by-round', mode: Mode = 'conexao'): GameState {
+  return createGame({ players, mode, order, seed: 12345 })
 }
 
 function run(s: GameState, ...actions: Action['type'][]): GameState {
@@ -69,18 +69,26 @@ describe('reducer', () => {
     expect(currentPlayer(s)).toBe(0)
   })
 
-  it('shows one intro per round in by-round mode, plus the bonus', () => {
-    const { phases } = playAll(start('by-round', true))
-    expect(phases.filter((p) => p === 'round-intro')).toHaveLength(4)
+  it('shows one intro per round in by-round mode', () => {
+    const { phases } = playAll(start('by-round'))
+    expect(phases.filter((p) => p === 'round-intro')).toHaveLength(3)
   })
 
-  it('shows a single intro in random mode without the bonus', () => {
-    const { phases } = playAll(start('random', false))
-    expect(phases.filter((p) => p === 'round-intro')).toHaveLength(1)
+  it('shows a single intro in random mode, and in Nosso futuro', () => {
+    for (const s of [start('random'), start('by-round', 'futuro')]) {
+      const { phases } = playAll(s)
+      expect(phases.filter((p) => p === 'round-intro')).toHaveLength(1)
+    }
+  })
+
+  it('ends Nosso futuro on the summary, without the eye-contact finale', () => {
+    const { s, dealt } = playAll(start('by-round', 'futuro'))
+    expect(dealt).toHaveLength(11)
+    expect(s.phase).toBe('done')
   })
 
   it('deals every card once and ends on eye contact, then done', () => {
-    const { s, dealt } = playAll(start('by-round', true))
+    const { s, dealt } = playAll(start('by-round'))
     expect(dealt).toEqual(s.deck)
     expect(s.phase).toBe('eye-contact')
     expect(run(s, 'FINISH').phase).toBe('done')
@@ -90,8 +98,8 @@ describe('reducer', () => {
     const { s, dealt } = playAll(start(), (i) => i % 3 === 0)
     expect(new Set(dealt).size).toBe(dealt.length)
     expect(dealt).toEqual(s.deck)
-    expect(s.passed).toHaveLength(10)
-    expect(answeredCount(s)).toBe(19)
+    expect(s.passed).toHaveLength(12)
+    expect(answeredCount(s)).toBe(24)
   })
 
   it('never deals a round 2 card before every round 1 card is answered or passed', () => {
@@ -145,7 +153,9 @@ describe('parseSaved', () => {
   it('rejects unknown card ids, other versions and garbage', () => {
     const s = start()
     expect(parseSaved(JSON.stringify({ ...s, deck: [...s.deck.slice(1), 'xx-99'] })).status).toBe('invalid')
-    expect(parseSaved(JSON.stringify({ ...s, version: 2 })).status).toBe('invalid')
+    // Version 1 saves predate Nosso futuro and the 36-card deck.
+    expect(parseSaved(JSON.stringify({ ...s, version: 1 })).status).toBe('invalid')
+    expect(parseSaved(JSON.stringify({ ...s, version: 3 })).status).toBe('invalid')
     expect(parseSaved(JSON.stringify({ ...s, deck: [s.deck[0], s.deck[0]] })).status).toBe('invalid')
     expect(parseSaved('{not json').status).toBe('invalid')
   })

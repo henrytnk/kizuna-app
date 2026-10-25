@@ -32,13 +32,14 @@ Live at https://kizuna-quiz.netlify.app. Open it on your phone. To use it like a
 
 ## How it works
 
-- **Cards** live in [src/data/cards.json](src/data/cards.json): 10 + 10 + 9 cards across three rounds, plus one optional bonus card. `{masc|fem}` pairs adapt to whoever is answering; `{parceiro}` becomes the other player's name.
+- **Two games.** *Conexão* is 36 questions in three rounds of 12, the structure of Aron et al. (1997), ending with an optional two-minute eye-contact screen. *Nosso futuro* is 11 questions about the long term (relationship, family, home, money, conflict, children), lighter ones first, and goes straight to the summary.
+- **Cards** live in [src/data/cards.json](src/data/cards.json). Each card has a `mode`, a `round` and a `theme`. `{masc|fem}` pairs adapt to whoever is answering; `{parceiro}` becomes the other player's name.
 - **No repeats by construction.** [src/game/deck.ts](src/game/deck.ts) shuffles the deck once per game from a 20-bit seed (mulberry32 + Fisher–Yates), round by round unless random order is chosen. Within a round, passado, presente and futuro take turns (never the same theme twice in a row); random order only avoids three in a row. The game only moves a pointer forward; passed cards are never dealt again.
 - **State** is a reducer ([src/game/reducer.ts](src/game/reducer.ts)) saved to `localStorage` on every change, so closing the tab or locking the phone keeps the game. Undo pops up to 10 snapshots without reshuffling. A saved game that fails validation offers a new game instead of crashing.
 - **Couple features:** turn banner, alternating first answerer, table mode (the card rotates 180° toward the second player), follow-up behind a tap, screen wake lock with an auto-lock tip as fallback, and an optional two-minute eye-contact finale.
 
 ## v1.1 extras
 
-- **Two phones.** "Jogar em dois celulares" on any round intro shows a 4-character code (the 20-bit seed in Crockford base32, see [src/game/gameCode.ts](src/game/gameCode.ts)) and a share link like `/#g=K7Q2&o=r&b=0`. The hash carries seed, order (`r` por rodada, `a` aleatória) and bonus, and browsers never send it to the server. The other phone opens the link, or taps "Entrar com código", enters the same names in the same order and gets the identical deck. Each phone taps forward on its own.
-- **Round timer.** A thin bar under the header fills over about 15 minutes per round (45 for a mixed game, 5 for the bonus card). It never interrupts.
+- **Two phones.** "Jogar em dois celulares" on any round intro shows a 4-character code (the 20-bit seed in Crockford base32, see [src/game/gameCode.ts](src/game/gameCode.ts)) and a share link like `/#g=K7Q2&m=c&o=r`. The hash carries seed, game (`m=c` Conexão, `m=f` Nosso futuro) and order (`o=r` por rodada, `o=a` aleatória), and browsers never send it to the server. The other phone opens the link, or taps "Entrar com código", enters the same names in the same order and gets the identical deck. Each phone taps forward on its own.
+- **Round timer.** A thin bar under the header fills over about 15 minutes per round (45 for a mixed game, 30 for Nosso futuro). It never interrupts.
 - **Haptics.** A 30 ms vibration when the turn passes to the other player. Android only: iOS Safari has no Vibration API.

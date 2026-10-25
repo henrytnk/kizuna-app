@@ -35,7 +35,7 @@ export function CardScreen({ game, onAnswered, onPass }: Props) {
         className="my-5 flex flex-1 animate-card-in flex-col rounded-3xl border border-line bg-surface p-6 shadow-2xl shadow-black/40"
       >
         <p className="text-xs uppercase tracking-[0.18em] text-muted">
-          {roundLabel(card)} · {THEME_LABEL[card.theme]}
+          {card.mode === 'futuro' ? roundLabel(card) : `${roundLabel(card)} · ${THEME_LABEL[card.theme]}`}
         </p>
         <div className="flex flex-1 flex-col justify-center py-6">
           <h2 className="font-serif text-[1.65rem] leading-snug text-balance">{render(card.text, me, other)}</h2>

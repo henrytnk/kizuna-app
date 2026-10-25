@@ -26,11 +26,11 @@ export const SEGMENTS: Record<string, { title: string; subtitle: string; howTo: 
     howTo: 'Das leves às mais profundas, em qualquer ordem. Os dois respondem toda carta, e qualquer um pode passar.',
     minutes: 45,
   },
-  bonus: {
-    title: 'Carta bônus',
-    subtitle: 'família',
-    howTo: 'Uma pergunta extra, sobre a vida que cada um imagina.',
-    minutes: 5,
+  futuro: {
+    title: 'Nosso futuro',
+    subtitle: 'para o longo prazo',
+    howTo: 'Família, casa, dinheiro, filhos. Não é pra concordar em tudo: é pra se conhecer. Qualquer um pode passar.',
+    minutes: 30,
   },
 }
 
@@ -41,5 +41,5 @@ export const THEME_LABEL: Record<Theme, string> = {
 }
 
 export function roundLabel(card: Card): string {
-  return card.round === 'bonus' ? 'Bônus' : `Rodada ${card.round}`
+  return card.mode === 'futuro' ? 'Nosso futuro' : `Rodada ${card.round}`
 }

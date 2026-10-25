@@ -27,12 +27,12 @@ describe('game code', () => {
 })
 
 describe('invite link', () => {
-  it('carries seed, order and bonus', () => {
-    expect(inviteHash({ seed: decodeCode('K7Q2')!, order: 'by-round', includeBonus: false })).toBe('#g=K7Q2&o=r&b=0')
+  it('carries seed, game and order', () => {
+    expect(inviteHash({ seed: decodeCode('K7Q2')!, mode: 'conexao', order: 'by-round' })).toBe('#g=K7Q2&m=c&o=r')
     for (const invite of [
-      { seed: 0, order: 'by-round', includeBonus: false },
-      { seed: 2 ** 20 - 1, order: 'random', includeBonus: true },
-      { seed: 54321, order: 'random', includeBonus: false },
+      { seed: 0, mode: 'conexao', order: 'by-round' },
+      { seed: 2 ** 20 - 1, mode: 'futuro', order: 'by-round' },
+      { seed: 54321, mode: 'conexao', order: 'random' },
     ] as const) {
       expect(parseInviteHash(inviteHash(invite))).toEqual(invite)
     }
@@ -50,8 +50,8 @@ describe('invite link', () => {
       { name: 'Leo', form: 'm' },
     ]
     for (const seed of [1, 777, 99_999, 2 ** 20 - 1]) {
-      for (const order of ['by-round', 'random'] as const) {
-        const host = createGame({ players, order, includeBonus: true, seed })
+      for (const [mode, order] of [['conexao', 'by-round'], ['conexao', 'random'], ['futuro', 'by-round']] as const) {
+        const host = createGame({ players, mode, order, seed })
         const invite = parseInviteHash(inviteHash(host))!
         expect(createGame({ players, ...invite }).deck).toEqual(host.deck)
       }

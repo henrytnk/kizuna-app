@@ -1,13 +1,13 @@
 import { CARDS, getCard } from './cards'
 import { buildDeck } from './deck'
-import type { Card, GameState, Order, Player, Snapshot } from './types'
+import type { Card, GameState, Mode, Order, Player, Snapshot } from './types'
 
 const UNDO_LIMIT = 10
 
 export interface NewGameOptions {
   players: [Player, Player]
+  mode: Mode
   order: Order
-  includeBonus: boolean
   seed: number
   tableMode?: boolean
 }
@@ -24,10 +24,10 @@ export type Action =
 
 export function createGame(o: NewGameOptions): GameState {
   return {
-    version: 1,
+    version: 2,
     seed: o.seed,
+    mode: o.mode,
     order: o.order,
-    includeBonus: o.includeBonus,
     players: o.players,
     deck: buildDeck(CARDS, o),
     index: 0,
@@ -39,9 +39,9 @@ export function createGame(o: NewGameOptions): GameState {
   }
 }
 
-/** A "segment" is what gets its own intro screen: each round in by-round mode, the whole mix in random mode, and the bonus card either way. */
+/** A "segment" is what gets its own intro screen: each round in by-round mode, the whole mix in random mode, and all of Nosso futuro. */
 export function segmentOf(card: Card, order: Order): string {
-  if (card.round === 'bonus') return 'bonus'
+  if (card.mode === 'futuro') return 'futuro'
   return order === 'by-round' ? String(card.round) : 'mix'
 }
 
@@ -61,7 +61,9 @@ function withUndo(prev: GameState, next: GameState): GameState {
 
 function advance(s: GameState): GameState {
   const next = s.index + 1
-  const phase = next >= s.deck.length ? 'eye-contact' : startsSegment(s, next) ? 'round-intro' : 'card'
+  // The eye-contact finale closes the closeness game; Nosso futuro goes straight to the summary.
+  const finale = s.mode === 'futuro' ? 'done' : 'eye-contact'
+  const phase = next >= s.deck.length ? finale : startsSegment(s, next) ? 'round-intro' : 'card'
   return { ...s, index: next, answeredBy: 0, phase }
 }
 
