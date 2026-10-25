@@ -132,7 +132,12 @@ function CardLayout({
         className={`my-5 flex flex-1 animate-card-in flex-col rounded-3xl border border-t-4 border-line bg-surface p-6 shadow-2xl shadow-black/40 transition-colors ${who === 0 ? 'border-t-sky' : 'border-t-accent'}`}
       >
         <p className="text-xs uppercase tracking-[0.18em] text-muted">
-          {label ? `${roundLabel(card)} · ${label}` : `${roundLabel(card)} · ${THEME_LABEL[card.theme]}`}
+          {label
+            ? `${roundLabel(card)} · ${label}`
+            : // In Nosso futuro the theme only orders the cards; the part's name says enough.
+              card.round === 4
+              ? roundLabel(card)
+              : `${roundLabel(card)} · ${THEME_LABEL[card.theme]}`}
         </p>
         <div className="flex flex-1 flex-col justify-center py-6">
           <h2 className="font-display text-[1.65rem] leading-snug font-bold text-balance">{text}</h2>

@@ -87,13 +87,18 @@ export function interleaveThemes(cards: readonly Card[], rand: () => number): Ca
 
 export function buildDeck(cards: readonly Card[], s: Pick<GameState, 'seed' | 'order'>): string[] {
   const rand = mulberry32(s.seed)
+  const closeness = cards.filter((c) => c.round !== 4)
   const byRound = (arrange: (round: Card[]) => Card[]) =>
-    ([1, 2, 3] as const).flatMap((r) => arrange(cards.filter((c) => c.round === r)))
+    ([1, 2, 3] as const).flatMap((r) => arrange(closeness.filter((c) => c.round === r)))
 
-  // By round, the guide's order: passado, presente and futuro take turns, never the same theme twice in a row.
+  // Rounds 1–3 by round follow the guide: passado, presente and futuro take turns, never the same theme twice in a row.
   // Fully random only avoids three in a row, so it stays surprising.
-  const ordered = s.order === 'random' ? smoothShuffle(cards, rand) : byRound((round) => interleaveThemes(round, rand))
-  return ordered.map((c) => c.id)
+  const ordered = s.order === 'random' ? smoothShuffle(closeness, rand) : byRound((round) => interleaveThemes(round, rand))
+  // Nosso futuro always closes the game, in either order: its lighter questions first, then the deeper ones.
+  const futuro = cards.filter((c) => c.round === 4)
+  const lighter = shuffle(futuro.filter((c) => !c.deeper), rand)
+  const deeper = shuffle(futuro.filter((c) => c.deeper), rand)
+  return [...ordered, ...lighter, ...deeper].map((c) => c.id)
 }
 
 export function newSeed(): number {

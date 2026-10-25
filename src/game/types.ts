@@ -1,4 +1,5 @@
-export type Round = 1 | 2 | 3
+/** Rounds 1–3 build closeness, each more personal; round 4 is Nosso futuro, about the long term. */
+export type Round = 1 | 2 | 3 | 4
 export type Theme = 'passado' | 'presente' | 'futuro'
 
 export interface Card {
@@ -10,6 +11,8 @@ export interface Card {
    * "alternate sharing… a total of five items". Its text has no {masc|fem} or {parceiro}.
    */
   together?: boolean
+  /** Nosso futuro only: dealt after its lighter questions (family, values, care, money, conflict, children). */
+  deeper?: boolean
   /** May contain {masc|fem} pairs and {parceiro}. */
   text: string
   followUp: string

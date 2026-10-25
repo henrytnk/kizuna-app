@@ -69,14 +69,14 @@ describe('reducer', () => {
     expect(currentPlayer(s)).toBe(0)
   })
 
-  it('shows one intro per round in by-round mode', () => {
+  it('shows one intro per round in by-round mode, Nosso futuro included', () => {
     const { phases } = playAll(start('by-round'))
-    expect(phases.filter((p) => p === 'round-intro')).toHaveLength(3)
+    expect(phases.filter((p) => p === 'round-intro')).toHaveLength(4)
   })
 
-  it('shows a single intro in random mode', () => {
+  it('shows one intro for the mix and one for Nosso futuro in random mode', () => {
     const { phases } = playAll(start('random'))
-    expect(phases.filter((p) => p === 'round-intro')).toHaveLength(1)
+    expect(phases.filter((p) => p === 'round-intro')).toHaveLength(2)
   })
 
   it('deals the next card in one step after a taking-turns card, and undo returns to it', () => {

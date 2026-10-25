@@ -39,8 +39,9 @@ export function createGame(o: NewGameOptions): GameState {
   }
 }
 
-/** A "segment" is what gets its own intro screen: each round in by-round mode, the whole mix in random mode. */
+/** A "segment" is what gets its own intro screen: each round in by-round mode, the whole mix in random mode, and Nosso futuro either way. */
 export function segmentOf(card: Card, order: Order): string {
+  if (card.round === 4) return 'futuro'
   return order === 'by-round' ? String(card.round) : 'mix'
 }
 
