@@ -101,8 +101,8 @@ describe('reducer', () => {
     const { s, dealt } = playAll(start(), (i) => i % 3 === 0)
     expect(new Set(dealt).size).toBe(dealt.length)
     expect(dealt).toEqual(s.deck)
-    expect(s.passed).toHaveLength(16)
-    expect(answeredCount(s)).toBe(32)
+    expect(s.passed).toHaveLength(17)
+    expect(answeredCount(s)).toBe(33)
   })
 
   it('never deals a round 2 card before every round 1 card is answered or passed', () => {
