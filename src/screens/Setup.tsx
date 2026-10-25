@@ -85,7 +85,7 @@ export function Setup({ initial, joining = false, onStart, onBack }: Props) {
           ← Voltar
         </button>
       </header>
-      <h1 className="font-serif text-3xl">
+      <h1 className="font-display font-extrabold text-3xl">
         {joining ? 'Entrar no jogo' : mode === 'futuro' ? 'Nosso futuro' : 'Novo jogo'}
       </h1>
       {!joining && <p className="mt-2 text-sm leading-relaxed text-muted">{ABOUT[mode]}</p>}
@@ -108,7 +108,7 @@ export function Setup({ initial, joining = false, onStart, onBack }: Props) {
               autoComplete="off"
               autoCapitalize="characters"
               spellCheck={false}
-              className="min-h-14 rounded-xl border border-line bg-surface px-4 text-center font-mono text-3xl tracking-[0.3em] text-gold outline-none placeholder:text-muted/40 focus:border-accent aria-invalid:border-accent"
+              className="min-h-14 rounded-xl border border-line bg-surface px-4 text-center font-mono text-3xl tracking-[0.3em] text-accent outline-none placeholder:text-muted/40 focus:border-accent aria-invalid:border-accent"
             />
             <p id="code-help" className="text-sm leading-relaxed text-muted">
               {codeError
@@ -128,7 +128,11 @@ export function Setup({ initial, joining = false, onStart, onBack }: Props) {
         )}
         {([0, 1] as const).map((i) => (
           <fieldset key={i} className="flex gap-2">
-            <legend className="mb-2 text-sm text-muted">{i === 0 ? 'Quem começa' : 'Quem responde em segundo'}</legend>
+            <legend className="mb-2 flex items-center gap-2 text-sm text-muted">
+              {/* Each player keeps a color for the whole game: blue like the K card, pink like the ! card. */}
+              <span aria-hidden="true" className={`size-2.5 rounded-sm ${i === 0 ? 'bg-sky' : 'bg-accent'}`} />
+              {i === 0 ? 'Quem começa' : 'Quem responde em segundo'}
+            </legend>
             <input
               value={players[i].name}
               onChange={(e) => setPlayer(i, { name: e.target.value })}

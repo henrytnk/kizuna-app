@@ -25,7 +25,7 @@ export function RoundTimer({ startedAt, minutes }: { startedAt: number; minutes:
       className="mt-2 h-0.5 overflow-hidden rounded-full bg-line"
     >
       <div
-        className="h-full rounded-full bg-gold/60 transition-[width] duration-1000 ease-linear"
+        className="h-full rounded-full bg-sky/60 transition-[width] duration-1000 ease-linear"
         style={{ width: `${fraction * 100}%` }}
       />
     </div>

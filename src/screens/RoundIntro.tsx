@@ -14,8 +14,8 @@ export function RoundIntro({ game, onBegin }: { game: GameState; onBegin: () => 
   return (
     <>
       <div key={game.index} className="flex flex-1 animate-card-in flex-col items-center justify-center text-center">
-        <p className="text-sm uppercase tracking-[0.2em] text-gold">{seg.subtitle}</p>
-        <h1 className="mt-3 font-serif text-5xl">{seg.title}</h1>
+        <p className="text-sm uppercase tracking-[0.2em] text-sky">{seg.subtitle}</p>
+        <h1 className="mt-3 font-display font-extrabold text-5xl">{seg.title}</h1>
         <p className="mt-6 max-w-xs text-lg leading-relaxed text-muted">{seg.howTo}</p>
         <p className="mt-3 text-sm text-muted">Cerca de {seg.minutes} minutos</p>
       </div>

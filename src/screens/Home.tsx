@@ -13,8 +13,8 @@ export function Home({ canContinue, savedGameBroken, onContinue, onNewGame, onJo
   return (
     <div className="screen animate-fade-in">
       <div className="flex flex-1 flex-col items-center justify-center text-center">
-        <Logo className="mb-6 w-28" />
-        <h1 className="font-serif text-5xl tracking-wide">Kizuna</h1>
+        <Logo className="mb-5 w-36" />
+        <h1 className="font-display text-4xl font-black tracking-wide text-sky uppercase">Kizuna Quiz</h1>
         <p className="mt-3 text-lg text-muted">Perguntas para criar conexão</p>
         <p className="mt-8 max-w-xs text-sm leading-relaxed text-muted">
           Um celular entre vocês, uma carta por vez, em três rodadas cada vez mais pessoais. Baseado no estudo de

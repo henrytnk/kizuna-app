@@ -27,15 +27,15 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'favicon.ico', 'apple-touch-icon-180x180.png'],
       manifest: {
-        name: 'Kizuna',
-        short_name: 'Kizuna',
+        name: 'Kizuna Quiz',
+        short_name: 'Kizuna Quiz',
         description: 'Perguntas para criar conexão: um jogo de cartas para casais.',
         lang: 'pt-BR',
         start_url: '/',
         display: 'standalone',
         orientation: 'portrait',
-        theme_color: '#1b1311',
-        background_color: '#1b1311',
+        theme_color: '#0d1224',
+        background_color: '#0d1224',
         icons: [
           { src: 'pwa-64x64.png', sizes: '64x64', type: 'image/png' },
           { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
@@ -44,7 +44,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,webmanifest}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,webmanifest,woff2}'],
       },
     }),
   ],

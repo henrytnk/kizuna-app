@@ -1,4 +1,4 @@
-# Kizuna
+# Kizuna Quiz
 
 Perguntas para criar conexão: a question-card game for couples. One phone on the table shows one card at a time, both of you answer it, and no card comes back within a game. No backend, no account, and nothing either of you says is stored.
 

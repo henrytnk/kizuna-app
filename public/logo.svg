@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 330">
+  <!-- Two cards turned toward each other: blue with K, pink with ! -->
+  <path d="M0 0 230 43V247L0 290Z" fill="#1F56B0"/>
+  <path d="M208 85 438 40V330L208 285Z" fill="#FF5784"/>
+  <path d="M68 92V198M68 152 146 92M104 124 150 198" fill="none" stroke="#fff" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M336 120 322 190" fill="none" stroke="#fff" stroke-width="36" stroke-linecap="round"/>
+  <circle cx="314" cy="236" r="20" fill="#fff"/>
+</svg>

@@ -1,18 +1,22 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-bg: #1b1311;
-  --color-surface: #281d19;
-  --color-surface-2: #34261f;
-  --color-line: #4a362d;
-  --color-ink: #f6ebe3;
-  --color-muted: #bfa99b;
-  --color-accent: #ee9a6e;
-  --color-accent-ink: #2a1309;
-  --color-gold: #f3c98b;
+  /* Kizuna Quiz brand: the blue card (K) and the pink card (!), on a deep navy for evening play. */
+  --color-bg: #0d1224;
+  --color-surface: #161d36;
+  --color-surface-2: #212a4a;
+  --color-line: #2e3a62;
+  --color-ink: #f3f5fb;
+  --color-muted: #a7b1ce;
+  --color-brand-blue: #1f56b0;
+  --color-brand-pink: #ff5784;
+  /* Readable on the navy background; also the two players' colors. */
+  --color-sky: #7ea4ff;
+  --color-accent: #ff5784;
+  --color-accent-ink: #1a0710;
 
   --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-display: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
   --animate-card-in: card-in 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
   --animate-fade-in: fade-in 300ms ease-out both;

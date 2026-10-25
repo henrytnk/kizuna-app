@@ -18,8 +18,8 @@ export function EyeContact({ onFinish }: { onFinish: () => void }) {
   return (
     <div className="screen animate-fade-in">
       <div className="flex flex-1 flex-col items-center justify-center text-center">
-        <p className="text-sm uppercase tracking-[0.2em] text-gold">para terminar</p>
-        <h1 className="mt-3 font-serif text-4xl">{stage === 'over' ? 'Pronto' : 'Dois minutos de olhar'}</h1>
+        <p className="text-sm uppercase tracking-[0.2em] text-sky">para terminar</p>
+        <h1 className="mt-3 font-display font-extrabold text-4xl">{stage === 'over' ? 'Pronto' : 'Dois minutos de olhar'}</h1>
         <p className="mt-6 max-w-xs text-lg leading-relaxed text-muted">
           {stage === 'over'
             ? 'Fiquem mais um pouco se quiserem.'

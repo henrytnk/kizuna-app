@@ -8,7 +8,7 @@ export function End({ game, onPlayAgain, onHome }: { game: GameState; onPlayAgai
     <div className="screen animate-fade-in">
       <div className="flex flex-1 flex-col items-center justify-center text-center">
         <Logo className="mb-6 w-24" />
-        <h1 className="font-serif text-4xl text-balance">
+        <h1 className="font-display font-extrabold text-4xl text-balance">
           Vocês responderam {answered} de {game.deck.length} cartas
         </h1>
         <p className="mt-6 max-w-xs text-lg leading-relaxed text-muted">

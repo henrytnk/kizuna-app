@@ -11,7 +11,7 @@ export function ShareGame({ game, onClose }: { game: GameState; onClose: () => v
 
   const share = async () => {
     try {
-      if (canShare) await navigator.share({ title: 'Kizuna', text: `Código do jogo: ${code}`, url: link })
+      if (canShare) await navigator.share({ title: 'Kizuna Quiz', text: `Código do jogo: ${code}`, url: link })
       else {
         await navigator.clipboard.writeText(link)
         setCopied(true)
@@ -30,13 +30,13 @@ export function ShareGame({ game, onClose }: { game: GameState; onClose: () => v
         onClick={(e) => e.stopPropagation()}
         className="mx-auto w-full max-w-[34rem] rounded-t-3xl border-t border-line bg-surface p-6 pb-[max(env(safe-area-inset-bottom),24px)]"
       >
-        <h2 id="share-title" className="font-serif text-2xl">
+        <h2 id="share-title" className="font-display font-extrabold text-2xl">
           Jogar em dois celulares
         </h2>
         <p className="mt-2 text-muted">
           No outro celular, abram o link ou toquem em “Entrar com código” e digitem:
         </p>
-        <p className="my-5 text-center font-mono text-5xl tracking-[0.3em] text-gold" aria-label={`Código ${code.split('').join(' ')}`}>
+        <p className="my-5 text-center font-mono text-5xl tracking-[0.3em] text-accent" aria-label={`Código ${code.split('').join(' ')}`}>
           {code}
         </p>
         <p className="text-sm leading-relaxed text-muted">

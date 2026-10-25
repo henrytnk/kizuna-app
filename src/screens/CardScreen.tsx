@@ -27,18 +27,18 @@ export function CardScreen({ game, onAnswered, onPass }: Props) {
     >
       <p aria-live="polite" className="mt-4 text-center text-lg">
         <span className="text-muted">Vez de </span>
-        <span className="font-semibold text-gold">{me.name}</span>
+        <span className={`font-display font-extrabold ${who === 0 ? 'text-sky' : 'text-accent'}`}>{me.name}</span>
       </p>
 
       <article
         key={game.index}
-        className="my-5 flex flex-1 animate-card-in flex-col rounded-3xl border border-line bg-surface p-6 shadow-2xl shadow-black/40"
+        className={`my-5 flex flex-1 animate-card-in flex-col rounded-3xl border border-t-4 border-line bg-surface p-6 shadow-2xl shadow-black/40 transition-colors ${who === 0 ? 'border-t-sky' : 'border-t-accent'}`}
       >
         <p className="text-xs uppercase tracking-[0.18em] text-muted">
           {card.mode === 'futuro' ? roundLabel(card) : `${roundLabel(card)} · ${THEME_LABEL[card.theme]}`}
         </p>
         <div className="flex flex-1 flex-col justify-center py-6">
-          <h2 className="font-serif text-[1.65rem] leading-snug text-balance">{render(card.text, me, other)}</h2>
+          <h2 className="font-display font-bold text-[1.65rem] leading-snug text-balance">{render(card.text, me, other)}</h2>
         </div>
         {/* Keyed by answerer so the follow-up hides again when the turn passes. */}
         <FollowUp key={`${game.index}-${game.answeredBy}`} text={render(card.followUp, me, other)} />

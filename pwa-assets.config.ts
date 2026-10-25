@@ -1,6 +1,6 @@
 import { defineConfig, minimal2023Preset } from '@vite-pwa/assets-generator/config'
 
-const background = { background: '#1b1311' }
+const background = { background: '#F7F9FC' }
 
 export default defineConfig({
   preset: {
