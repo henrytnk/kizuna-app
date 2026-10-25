@@ -134,7 +134,7 @@ function CardLayout({
         <p className="text-xs uppercase tracking-[0.18em] text-muted">
           {label
             ? `${roundLabel(card)} · ${label}`
-            : // In Nosso futuro the theme only orders the cards; the part's name says enough.
+            : // In the final round the theme only orders the cards; the part's name says enough.
               card.round === 4
               ? roundLabel(card)
               : `${roundLabel(card)} · ${THEME_LABEL[card.theme]}`}

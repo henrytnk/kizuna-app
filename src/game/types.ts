@@ -1,4 +1,4 @@
-/** Rounds 1–3 build closeness, each more personal; round 4 is Nosso futuro, about the long term. */
+/** Rounds 1–3 build closeness, each more personal; round 4 is the final round, about the long term. */
 export type Round = 1 | 2 | 3 | 4
 export type Theme = 'passado' | 'presente' | 'futuro'
 

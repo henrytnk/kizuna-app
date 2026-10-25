@@ -44,7 +44,7 @@ function smoothShuffle(cards: readonly Card[], rand: () => number): Card[] {
 
 /**
  * The deal order. 'listed' is the approved list exactly, card by card, as cards.json orders it.
- * 'random' mixes rounds 1–3 (never one theme three times in a row); Nosso futuro still closes the game, in list order.
+ * 'random' mixes rounds 1–3 (never one theme three times in a row); the final round still closes the game, in list order.
  */
 export function buildDeck(cards: readonly Card[], s: Pick<GameState, 'seed' | 'order'>): string[] {
   if (s.order === 'listed') return cards.map((c) => c.id)

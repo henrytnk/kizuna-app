@@ -9,7 +9,7 @@ const SETTINGS: { order: Order }[] = [{ order: 'listed' }, { order: 'random' }]
 const SIZE = 48
 
 describe('cards.json', () => {
-  it('has 12 + 13 + 12 cards in rounds 1–3 and 11 in Nosso futuro, with unique ids', () => {
+  it('has 12 + 13 + 12 cards in rounds 1–3 and 11 in the final round, with unique ids', () => {
     const count = (r: number) => CARDS.filter((c) => c.round === r).length
     expect([count(1), count(2), count(3), count(4)]).toEqual([12, 13, 12, 11])
     expect(new Set(CARDS.map((c) => c.id)).size).toBe(CARDS.length)
@@ -42,7 +42,7 @@ describe('deal order', () => {
     expect(deck.at(-1)!.text).toBe('Você se imagina tendo filhos? Como você imagina ser {pai|mãe}?')
   })
 
-  it('keeps Nosso futuro last, in list order, even in random order', () => {
+  it('keeps the final round last, in list order, even in random order', () => {
     for (const seed of SEEDS.slice(0, 1000)) {
       expect(buildDeck(CARDS, { seed, order: 'random' }).slice(-11)).toEqual(APPROVED_ORDER.slice(-11))
     }

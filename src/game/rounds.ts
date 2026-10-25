@@ -27,8 +27,8 @@ export const SEGMENTS: Record<string, { title: string; subtitle: string; howTo: 
     minutes: 45,
   },
   futuro: {
-    title: 'Nosso futuro',
-    subtitle: 'para o longo prazo',
+    title: 'Rodada final',
+    subtitle: 'o futuro de vocês',
     howTo: 'Família, casa, dinheiro, filhos. Não é pra concordar em tudo: é pra se conhecer. Qualquer um pode passar.',
     minutes: 30,
   },
@@ -41,5 +41,5 @@ export const THEME_LABEL: Record<Theme, string> = {
 }
 
 export function roundLabel(card: Card): string {
-  return card.round === 4 ? 'Nosso futuro' : `Rodada ${card.round}`
+  return card.round === 4 ? 'Rodada final' : `Rodada ${card.round}`
 }

@@ -69,12 +69,12 @@ describe('reducer', () => {
     expect(currentPlayer(s)).toBe(0)
   })
 
-  it('shows one intro per round in list order, Nosso futuro included', () => {
+  it('shows one intro per round in list order, the final round included', () => {
     const { phases } = playAll(start('listed'))
     expect(phases.filter((p) => p === 'round-intro')).toHaveLength(4)
   })
 
-  it('shows one intro for the mix and one for Nosso futuro in random mode', () => {
+  it('shows one intro for the mix and one for the final round in random mode', () => {
     const { phases } = playAll(start('random'))
     expect(phases.filter((p) => p === 'round-intro')).toHaveLength(2)
   })
