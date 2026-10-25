@@ -6,12 +6,12 @@ import type { Order, Player } from './types'
 
 const SEEDS = Array.from({ length: 10_000 }, (_, i) => Math.floor(mulberry32(i + 1)() * 2 ** 20))
 const SETTINGS: { order: Order }[] = [{ order: 'listed' }, { order: 'random' }]
-const SIZE = 48
+const SIZE = 50
 
 describe('cards.json', () => {
-  it('has 12 + 13 + 12 cards in rounds 1–3 and 11 in the final round, with unique ids', () => {
+  it('has 12 + 14 + 12 cards in rounds 1–3 and 12 in the final round, with unique ids', () => {
     const count = (r: number) => CARDS.filter((c) => c.round === r).length
-    expect([count(1), count(2), count(3), count(4)]).toEqual([12, 13, 12, 11])
+    expect([count(1), count(2), count(3), count(4)]).toEqual([12, 14, 12, 12])
     expect(new Set(CARDS.map((c) => c.id)).size).toBe(CARDS.length)
   })
 
@@ -23,13 +23,13 @@ describe('cards.json', () => {
 })
 
 describe('deal order', () => {
-  // The approved list, card by card: 1–12, 13–24 then the five qualities, 25–36, 37–41 then A–F.
+  // The approved list, card by card: 1–12; 13–22, energia, 23–24, the five qualities; 25–36; construir, 37–41, A–F.
   // Cards are dealt in exactly this order. Change it only on purpose, here and in cards.json.
   const APPROVED_ORDER = [
     'pa-01', 'pa-08', 'pa-07', 'pa-10', 'pr-06', 'pr-07', 'pr-10', 'pr-11', 'pr-12', 'fu-06', 'fu-07', 'fu-08',
-    'pa-02', 'pa-04', 'pa-05', 'pa-11', 'pa-12', 'pr-02', 'pr-04', 'pr-08', 'pr-09', 'pr-13', 'fu-01', 'fu-05', 'pr-18',
+    'pa-02', 'pa-04', 'pa-05', 'pa-11', 'pa-12', 'pr-02', 'pr-04', 'pr-08', 'pr-09', 'pr-13', 'pr-19', 'fu-01', 'fu-05', 'pr-18',
     'pa-03', 'pa-06', 'pa-09', 'pa-13', 'pr-14', 'pr-01', 'pr-03', 'pr-05', 'fu-02', 'fu-03', 'fu-04', 'fu-11',
-    'pr-15', 'fu-10', 'fu-12', 'fu-13', 'fu-09', 'pa-15', 'pa-14', 'pr-17', 'pr-16', 'fu-14', 'fu-15',
+    'fu-16', 'pr-15', 'fu-10', 'fu-12', 'fu-13', 'fu-09', 'pa-15', 'pa-14', 'pr-17', 'pr-16', 'fu-14', 'fu-15',
   ]
 
   it('deals the approved list exactly, for every seed', () => {
@@ -44,7 +44,7 @@ describe('deal order', () => {
 
   it('keeps the final round last, in list order, even in random order', () => {
     for (const seed of SEEDS.slice(0, 1000)) {
-      expect(buildDeck(CARDS, { seed, order: 'random' }).slice(-11)).toEqual(APPROVED_ORDER.slice(-11))
+      expect(buildDeck(CARDS, { seed, order: 'random' }).slice(-12)).toEqual(APPROVED_ORDER.slice(-12))
     }
   })
 })

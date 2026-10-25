@@ -32,7 +32,7 @@ Live at https://kizuna-quiz.netlify.app. Open it on your phone. To use it like a
 
 ## How it works
 
-- **One game, 48 cards.** Rounds 1–3 (12, 13 and 12 cards), each more personal, follow the 36 questions of Aron et al. (1997). Round 4, the *Rodada final*, always closes the game: 11 questions about the long term (relationship, family, home, money, conflict, children), Then an optional two-minute eye-contact challenge. The exact deal order is pinned by a test in [src/game/deck.test.ts](src/game/deck.test.ts).
+- **One game, 50 cards.** Rounds 1–3 (12, 14 and 12 cards), each more personal, follow the 36 questions of Aron et al. (1997). Round 4, the *Rodada final*, always closes the game: 12 questions about the long term (relationship, family, home, money, conflict, children), Then an optional two-minute eye-contact challenge. The exact deal order is pinned by a test in [src/game/deck.test.ts](src/game/deck.test.ts).
 - **The five-qualities card** (`"together": true`) is played by both within one card: each Respondi passes the turn, five qualities each, as in the original "alternate sharing" item.
 - **Cards** live in [src/data/cards.json](src/data/cards.json). Each card has a `round` (1–4) and a `theme`; `{masc|fem}` pairs adapt to whoever is answering; `{parceiro}` becomes the other player's name.
 - **Order.** By default (*Na ordem*) the cards are dealt exactly as [src/data/cards.json](src/data/cards.json) lists them, the approved list card by card; a test pins that sequence. *Aleatória* shuffles rounds 1–3 together from a 20-bit seed (mulberry32 + Fisher–Yates, never one theme three times in a row) and keeps the final round last, in list order. The game only moves a pointer forward; passed cards are never dealt again.

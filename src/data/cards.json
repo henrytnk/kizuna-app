@@ -22,6 +22,7 @@
   { "id": "pr-08", "round": 2, "theme": "presente", "text": "O que, pra você, é sério demais pra virar piada?", "followUp": "Sempre foi assim, ou mudou com o tempo?" },
   { "id": "pr-09", "round": 2, "theme": "presente", "text": "O que você está tentando melhorar em você?", "followUp": "O que te motivou a começar?" },
   { "id": "pr-13", "round": 2, "theme": "presente", "text": "Do que você não abre mão no seu dia a dia?", "followUp": "Por que isso é tão importante pra você?" },
+  { "id": "pr-19", "round": 2, "theme": "presente", "text": "O que tem te dado mais energia ultimamente, e o que tem te cansado?", "followUp": "O que você poderia fazer pra ter mais do primeiro e menos do segundo?" },
   { "id": "fu-01", "round": 2, "theme": "futuro", "text": "Tem algo que você sonha fazer há muito tempo e ainda não fez?", "followUp": "O que tem te segurado até agora?" },
   { "id": "fu-05", "round": 2, "theme": "futuro", "text": "Onde você quer estar daqui a dez anos?", "followUp": "E quais são as prioridades pra chegar lá?" },
   { "id": "pr-18", "round": 2, "theme": "presente", "together": true, "text": "Revezem: cada um diz uma qualidade que admira no outro, até cada um ter dito cinco.", "followUp": "Qual qualidade dita sobre você mais te surpreendeu?" },
@@ -39,6 +40,7 @@
   { "id": "fu-04", "round": 3, "theme": "futuro", "text": "Complete a frase: “Eu queria ter alguém com quem pudesse dividir…”", "followUp": "Por que isso?" },
   { "id": "fu-11", "round": 3, "theme": "futuro", "text": "Quando você for mais {velho|velha}, que história gostaria de poder contar sobre a sua vida?", "followUp": "Que parte dessa história já começou?" },
 
+  { "id": "fu-16", "round": 4, "theme": "futuro", "text": "O que é mais importante pra você construir nos próximos anos?", "followUp": "E o que você gostaria de construir junto com alguém?" },
   { "id": "pr-15", "round": 4, "theme": "presente", "text": "Pra você, como é um relacionamento que dá certo?", "followUp": "O que você já viu de perto que te ensinou isso?" },
   { "id": "fu-10", "round": 4, "theme": "futuro", "text": "Que papel a família tem na vida que você imagina?", "followUp": "Isso mudou com o tempo pra você?" },
   { "id": "fu-12", "round": 4, "theme": "futuro", "text": "Como seria um fim de semana perfeito em família?", "followUp": "O que dele vem da família em que você cresceu?" },

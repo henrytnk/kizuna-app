@@ -156,7 +156,7 @@ describe('parseSaved', () => {
   it('rejects unknown card ids, other versions and garbage', () => {
     const s = start()
     expect(parseSaved(JSON.stringify({ ...s, deck: [...s.deck.slice(1), 'xx-99'] })).status).toBe('invalid')
-    // Saves from before the 48-card deck.
+    // Saves from before the current deck.
     expect(parseSaved(JSON.stringify({ ...s, version: 1 })).status).toBe('invalid')
     expect(parseSaved(JSON.stringify({ ...s, version: 2 })).status).toBe('invalid')
     expect(parseSaved(JSON.stringify({ ...s, version: 4 })).status).toBe('invalid')

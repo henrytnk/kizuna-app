@@ -31,7 +31,7 @@ test('a full game plays end to end on a phone', async ({ page }) => {
   }
 
   await page.getByRole('button', { name: 'Pular' }).click()
-  await expect(page.getByRole('heading', { name: 'Vocês responderam 47 de 48 cartas' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Vocês responderam 49 de 50 cartas' })).toBeVisible()
 })
 
 test('loads offline after the first visit', async ({ page, context }) => {
