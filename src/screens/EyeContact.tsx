@@ -18,12 +18,12 @@ export function EyeContact({ onFinish }: { onFinish: () => void }) {
   return (
     <div className="screen animate-fade-in">
       <div className="flex flex-1 flex-col items-center justify-center text-center">
-        <p className="text-sm uppercase tracking-[0.2em] text-sky">para terminar</p>
-        <h1 className="mt-3 font-display font-extrabold text-4xl">{stage === 'over' ? 'Pronto' : 'Dois minutos de olhar'}</h1>
+        <p className="text-sm uppercase tracking-[0.2em] text-sky">opcional</p>
+        <h1 className="mt-3 font-display font-extrabold text-4xl">{stage === 'over' ? 'Pronto' : 'Desafio final'}</h1>
         <p className="mt-6 max-w-xs text-lg leading-relaxed text-muted">
           {stage === 'over'
-            ? 'Fiquem mais um pouco se quiserem.'
-            : 'Se o clima pedir: em silêncio, olhem nos olhos um do outro por dois minutos. A tela escurece e volta quando o tempo acabar.'}
+            ? 'E aí, quem riu primeiro?'
+            : 'Dois minutos em silêncio, olho no olho. Sorrir pode; quem cair na risada primeiro perde. A tela apaga e volta quando acabar.'}
         </p>
       </div>
       {stage === 'over' ? (
@@ -34,7 +34,7 @@ export function EyeContact({ onFinish }: { onFinish: () => void }) {
             Pular
           </Button>
           <Button className="flex-[2]" onClick={() => setStage('dimming')}>
-            Começar
+            Topamos
           </Button>
         </div>
       )}
